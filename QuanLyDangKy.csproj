@@ -268,6 +268,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Views\DangNhapForm.resx">
       <DependentUpon>DangNhapForm.cs</DependentUpon>
@@ -293,6 +294,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Icon\settings_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon\ThongKe_icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
