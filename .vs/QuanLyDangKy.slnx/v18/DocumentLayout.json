@@ -3,32 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F637EC9A-076A-4829-A525-587241AFD285}|QuanLyDangKy.csproj|C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\views\\trangchuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F637EC9A-076A-4829-A525-587241AFD285}|QuanLyDangKy.csproj|solutionrelative:views\\trangchuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F637EC9A-076A-4829-A525-587241AFD285}|QuanLyDangKy.csproj|c:\\users\\nguyenkien\\source\\repos\\quanlydangky\\views\\trangchuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{F637EC9A-076A-4829-A525-587241AFD285}|QuanLyDangKy.csproj|solutionrelative:views\\trangchuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F637EC9A-076A-4829-A525-587241AFD285}|QuanLyDangKy.csproj|C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\views\\dangnhapform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F637EC9A-076A-4829-A525-587241AFD285}|QuanLyDangKy.csproj|solutionrelative:views\\dangnhapform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F637EC9A-076A-4829-A525-587241AFD285}|QuanLyDangKy.csproj|C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\views\\dangnhapform.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}",
-      "RelativeMoniker": "D:0:0:{F637EC9A-076A-4829-A525-587241AFD285}|QuanLyDangKy.csproj|solutionrelative:views\\dangnhapform.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F637EC9A-076A-4829-A525-587241AFD285}|QuanLyDangKy.csproj|C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\views\\dangnhapform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{F637EC9A-076A-4829-A525-587241AFD285}|QuanLyDangKy.csproj|c:\\users\\nguyenkien\\source\\repos\\quanlydangky\\views\\dangnhapform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{F637EC9A-076A-4829-A525-587241AFD285}|QuanLyDangKy.csproj|solutionrelative:views\\dangnhapform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F637EC9A-076A-4829-A525-587241AFD285}|QuanLyDangKy.csproj|C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\views\\dangnhapform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F637EC9A-076A-4829-A525-587241AFD285}|QuanLyDangKy.csproj|c:\\users\\nguyenkien\\source\\repos\\quanlydangky\\views\\dangnhapform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F637EC9A-076A-4829-A525-587241AFD285}|QuanLyDangKy.csproj|solutionrelative:views\\dangnhapform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F637EC9A-076A-4829-A525-587241AFD285}|QuanLyDangKy.csproj|C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F637EC9A-076A-4829-A525-587241AFD285}|QuanLyDangKy.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F637EC9A-076A-4829-A525-587241AFD285}|QuanLyDangKy.csproj|C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\views\\trangchuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F637EC9A-076A-4829-A525-587241AFD285}|QuanLyDangKy.csproj|solutionrelative:views\\trangchuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F637EC9A-076A-4829-A525-587241AFD285}|QuanLyDangKy.csproj|C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\.env||{8B382828-6202-11D1-8870-0000F87579D2}",
@@ -46,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,90 +46,57 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DangNhapForm.Designer.cs",
-              "DocumentMoniker": "C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\Views\\DangNhapForm.Designer.cs",
-              "RelativeDocumentMoniker": "Views\\DangNhapForm.Designer.cs",
-              "ToolTip": "C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\Views\\DangNhapForm.Designer.cs",
-              "RelativeToolTip": "Views\\DangNhapForm.Designer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-05T13:32:43.727Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DangNhapForm.resx",
-              "DocumentMoniker": "C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\Views\\DangNhapForm.resx",
-              "RelativeDocumentMoniker": "Views\\DangNhapForm.resx",
-              "ToolTip": "C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\Views\\DangNhapForm.resx",
-              "RelativeToolTip": "Views\\DangNhapForm.resx",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
-              "WhenOpened": "2026-03-05T13:32:43.713Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "DangNhapForm.cs",
               "DocumentMoniker": "C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\Views\\DangNhapForm.cs",
               "RelativeDocumentMoniker": "Views\\DangNhapForm.cs",
               "ToolTip": "C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\Views\\DangNhapForm.cs",
               "RelativeToolTip": "Views\\DangNhapForm.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAAAA4AAAAnAAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-05T11:13:58.427Z"
+              "WhenOpened": "2026-03-05T15:32:55.371Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-05T11:01:20.431Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "DangNhapForm.cs [Design]",
               "DocumentMoniker": "C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\Views\\DangNhapForm.cs",
               "RelativeDocumentMoniker": "Views\\DangNhapForm.cs",
               "ToolTip": "C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\Views\\DangNhapForm.cs [Design]",
               "RelativeToolTip": "Views\\DangNhapForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-05T09:36:35.833Z"
+              "WhenOpened": "2026-03-05T15:32:53.004Z",
+              "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "TrangChuForm.cs",
-              "DocumentMoniker": "C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\Views\\TrangChuForm.cs",
-              "RelativeDocumentMoniker": "Views\\TrangChuForm.cs",
-              "ToolTip": "C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\Views\\TrangChuForm.cs",
-              "RelativeToolTip": "Views\\TrangChuForm.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAwAsAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-05T09:32:33.656Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "TrangChuForm.cs [Design]",
               "DocumentMoniker": "C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\Views\\TrangChuForm.cs",
               "RelativeDocumentMoniker": "Views\\TrangChuForm.cs",
               "ToolTip": "C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\Views\\TrangChuForm.cs [Design]",
               "RelativeToolTip": "Views\\TrangChuForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-05T09:14:43.714Z",
+              "WhenOpened": "2026-03-05T15:02:00.471Z",
               "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 0,
+              "Title": "TrangChuForm.cs",
+              "DocumentMoniker": "C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\Views\\TrangChuForm.cs",
+              "RelativeDocumentMoniker": "Views\\TrangChuForm.cs",
+              "ToolTip": "C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\Views\\TrangChuForm.cs",
+              "RelativeToolTip": "Views\\TrangChuForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAMYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-05T09:32:33.656Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "App.config",
               "DocumentMoniker": "C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\App.config",
               "RelativeDocumentMoniker": "App.config",
@@ -154,7 +109,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 4,
               "Title": ".env",
               "DocumentMoniker": "C:\\Users\\NguyenKien\\source\\repos\\QuanLyDangKy\\.env",
               "RelativeDocumentMoniker": ".env",
@@ -162,7 +117,8 @@
               "RelativeToolTip": ".env",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAABOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-03-05T09:17:31.278Z"
+              "WhenOpened": "2026-03-05T09:17:31.278Z",
+              "EditorCaption": ""
             }
           ]
         }

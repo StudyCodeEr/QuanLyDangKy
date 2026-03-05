@@ -45,9 +45,10 @@ C:\Users\NguyenKien\source\repos\QuanLyDangKy\bin\Debug\System.Threading.Tasks.E
 C:\Users\NguyenKien\source\repos\QuanLyDangKy\obj\Debug\QuanLyDangKy.csproj.AssemblyReference.cache
 C:\Users\NguyenKien\source\repos\QuanLyDangKy\obj\Debug\QuanLyDangKy.Properties.Resources.resources
 C:\Users\NguyenKien\source\repos\QuanLyDangKy\obj\Debug\QuanLyDangKy.Views.DangNhapForm.resources
-C:\Users\NguyenKien\source\repos\QuanLyDangKy\obj\Debug\QuanLyDangKy.TrangChuForm.resources
 C:\Users\NguyenKien\source\repos\QuanLyDangKy\obj\Debug\QuanLyDangKy.csproj.GenerateResource.cache
 C:\Users\NguyenKien\source\repos\QuanLyDangKy\obj\Debug\QuanLyDangKy.csproj.CoreCompileInputs.cache
 C:\Users\NguyenKien\source\repos\QuanLyDangKy\obj\Debug\QuanLyDa.CF478936.Up2Date
 C:\Users\NguyenKien\source\repos\QuanLyDangKy\obj\Debug\QuanLyDangKy.exe
 C:\Users\NguyenKien\source\repos\QuanLyDangKy\obj\Debug\QuanLyDangKy.pdb
+C:\Users\NguyenKien\source\repos\QuanLyDangKy\obj\Debug\QuanLyDangKy.Views.TrangChuForm.resources
+C:\Users\NguyenKien\source\repos\QuanLyDangKy\bin\Debug\Icon\avatar_default.png

@@ -300,5 +300,10 @@
   <ItemGroup>
     <None Include="Icon\ThongKe_icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icon\avatar_default.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
