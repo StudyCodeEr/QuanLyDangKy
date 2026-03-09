@@ -30,8 +30,6 @@
         {
             this.pnlTop = new Guna.UI2.WinForms.Guna2Panel();
             this.lblHomNay = new System.Windows.Forms.Label();
-            this.btnThongKe = new Guna.UI2.WinForms.Guna2CircleButton();
-            this.btnCaiDat = new Guna.UI2.WinForms.Guna2CircleButton();
             this.guna2Separator1 = new Guna.UI2.WinForms.Guna2Separator();
             this.btnMoDangNhap = new Guna.UI2.WinForms.Guna2Button();
             this.menuTaiKhoan = new Guna.UI2.WinForms.Guna2ContextMenuStrip();
@@ -41,13 +39,16 @@
             this.btnThemLich = new Guna.UI2.WinForms.Guna2Button();
             this.btnToggleBoLoc = new Guna.UI2.WinForms.Guna2Button();
             this.pnlDanhSachBoLoc = new Guna.UI2.WinForms.Guna2Panel();
-            this.guna2CheckBox4 = new Guna.UI2.WinForms.Guna2CheckBox();
-            this.guna2CheckBox2 = new Guna.UI2.WinForms.Guna2CheckBox();
-            this.guna2CheckBox3 = new Guna.UI2.WinForms.Guna2CheckBox();
-            this.guna2CheckBox1 = new Guna.UI2.WinForms.Guna2CheckBox();
+            this.chkLocTienIch = new Guna.UI2.WinForms.Guna2CheckBox();
+            this.chkLocCongViec = new Guna.UI2.WinForms.Guna2CheckBox();
+            this.chkLocHocTap = new Guna.UI2.WinForms.Guna2CheckBox();
+            this.chkLocGiaiTri = new Guna.UI2.WinForms.Guna2CheckBox();
             this.calMini = new System.Windows.Forms.MonthCalendar();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tlpLich = new System.Windows.Forms.TableLayoutPanel();
+            this.btnThongKe = new Guna.UI2.WinForms.Guna2CircleButton();
+            this.btnCaiDat = new Guna.UI2.WinForms.Guna2CircleButton();
+            this.chkLocKhac = new Guna.UI2.WinForms.Guna2CheckBox();
             this.pnlTop.SuspendLayout();
             this.menuTaiKhoan.SuspendLayout();
             this.pnlSidebar.SuspendLayout();
@@ -78,48 +79,6 @@
             this.lblHomNay.Name = "lblHomNay";
             this.lblHomNay.Size = new System.Drawing.Size(0, 31);
             this.lblHomNay.TabIndex = 4;
-            // 
-            // btnThongKe
-            // 
-            this.btnThongKe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnThongKe.BackColor = System.Drawing.Color.Transparent;
-            this.btnThongKe.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnThongKe.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnThongKe.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnThongKe.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnThongKe.FillColor = System.Drawing.Color.Transparent;
-            this.btnThongKe.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnThongKe.ForeColor = System.Drawing.Color.White;
-            this.btnThongKe.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(250)))), ((int)(((byte)(251)))));
-            this.btnThongKe.Image = global::QuanLyDangKy.Properties.Resources.ThongKe_icon1;
-            this.btnThongKe.ImageSize = new System.Drawing.Size(30, 30);
-            this.btnThongKe.Location = new System.Drawing.Point(1006, 10);
-            this.btnThongKe.Name = "btnThongKe";
-            this.btnThongKe.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.btnThongKe.Size = new System.Drawing.Size(40, 40);
-            this.btnThongKe.TabIndex = 3;
-            this.btnThongKe.Click += new System.EventHandler(this.btnThongKe_Click);
-            // 
-            // btnCaiDat
-            // 
-            this.btnCaiDat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCaiDat.BackColor = System.Drawing.Color.Transparent;
-            this.btnCaiDat.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnCaiDat.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnCaiDat.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnCaiDat.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnCaiDat.FillColor = System.Drawing.Color.Transparent;
-            this.btnCaiDat.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnCaiDat.ForeColor = System.Drawing.Color.White;
-            this.btnCaiDat.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(250)))), ((int)(((byte)(251)))));
-            this.btnCaiDat.Image = global::QuanLyDangKy.Properties.Resources.settings_icon1;
-            this.btnCaiDat.ImageSize = new System.Drawing.Size(35, 35);
-            this.btnCaiDat.Location = new System.Drawing.Point(1064, 9);
-            this.btnCaiDat.Name = "btnCaiDat";
-            this.btnCaiDat.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.btnCaiDat.Size = new System.Drawing.Size(40, 40);
-            this.btnCaiDat.TabIndex = 2;
-            this.btnCaiDat.Click += new System.EventHandler(this.btnCaiDat_Click);
             // 
             // guna2Separator1
             // 
@@ -166,7 +125,6 @@
             this.menuTaiKhoan.RenderStyle.SeparatorColor = System.Drawing.Color.Gainsboro;
             this.menuTaiKhoan.RenderStyle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
             this.menuTaiKhoan.Size = new System.Drawing.Size(223, 52);
-            this.menuTaiKhoan.Click += new System.EventHandler(this.menuSuaThongTin_Click);
             // 
             // menuSuaThongTin
             // 
@@ -228,9 +186,9 @@
             this.btnToggleBoLoc.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.btnToggleBoLoc.ForeColor = System.Drawing.Color.DimGray;
             this.btnToggleBoLoc.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(246)))));
-            this.btnToggleBoLoc.Location = new System.Drawing.Point(4, 233);
+            this.btnToggleBoLoc.Location = new System.Drawing.Point(0, 233);
             this.btnToggleBoLoc.Name = "btnToggleBoLoc";
-            this.btnToggleBoLoc.Size = new System.Drawing.Size(200, 36);
+            this.btnToggleBoLoc.Size = new System.Drawing.Size(220, 36);
             this.btnToggleBoLoc.TabIndex = 2;
             this.btnToggleBoLoc.Text = "▼ Lọc Theo Thể Loại";
             this.btnToggleBoLoc.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
@@ -238,98 +196,99 @@
             // 
             // pnlDanhSachBoLoc
             // 
-            this.pnlDanhSachBoLoc.Controls.Add(this.guna2CheckBox4);
-            this.pnlDanhSachBoLoc.Controls.Add(this.guna2CheckBox2);
-            this.pnlDanhSachBoLoc.Controls.Add(this.guna2CheckBox3);
-            this.pnlDanhSachBoLoc.Controls.Add(this.guna2CheckBox1);
-            this.pnlDanhSachBoLoc.Location = new System.Drawing.Point(0, 271);
+            this.pnlDanhSachBoLoc.Controls.Add(this.chkLocKhac);
+            this.pnlDanhSachBoLoc.Controls.Add(this.chkLocTienIch);
+            this.pnlDanhSachBoLoc.Controls.Add(this.chkLocCongViec);
+            this.pnlDanhSachBoLoc.Controls.Add(this.chkLocHocTap);
+            this.pnlDanhSachBoLoc.Controls.Add(this.chkLocGiaiTri);
+            this.pnlDanhSachBoLoc.Location = new System.Drawing.Point(0, 269);
             this.pnlDanhSachBoLoc.Name = "pnlDanhSachBoLoc";
-            this.pnlDanhSachBoLoc.Size = new System.Drawing.Size(220, 128);
+            this.pnlDanhSachBoLoc.Size = new System.Drawing.Size(220, 161);
             this.pnlDanhSachBoLoc.TabIndex = 1;
             // 
-            // guna2CheckBox4
+            // chkLocTienIch
             // 
-            this.guna2CheckBox4.AutoSize = true;
-            this.guna2CheckBox4.BackColor = System.Drawing.Color.Transparent;
-            this.guna2CheckBox4.CheckedState.BorderColor = System.Drawing.Color.LightGray;
-            this.guna2CheckBox4.CheckedState.BorderRadius = 0;
-            this.guna2CheckBox4.CheckedState.BorderThickness = 0;
-            this.guna2CheckBox4.CheckedState.FillColor = System.Drawing.Color.Green;
-            this.guna2CheckBox4.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2CheckBox4.ForeColor = System.Drawing.Color.Black;
-            this.guna2CheckBox4.Location = new System.Drawing.Point(34, 98);
-            this.guna2CheckBox4.Name = "guna2CheckBox4";
-            this.guna2CheckBox4.Size = new System.Drawing.Size(74, 21);
-            this.guna2CheckBox4.TabIndex = 5;
-            this.guna2CheckBox4.Text = "Tiện ích";
-            this.guna2CheckBox4.UncheckedState.BorderColor = System.Drawing.Color.LimeGreen;
-            this.guna2CheckBox4.UncheckedState.BorderRadius = 0;
-            this.guna2CheckBox4.UncheckedState.BorderThickness = 0;
-            this.guna2CheckBox4.UncheckedState.FillColor = System.Drawing.Color.White;
-            this.guna2CheckBox4.UseVisualStyleBackColor = false;
+            this.chkLocTienIch.AutoSize = true;
+            this.chkLocTienIch.BackColor = System.Drawing.Color.Transparent;
+            this.chkLocTienIch.CheckedState.BorderColor = System.Drawing.Color.LightGray;
+            this.chkLocTienIch.CheckedState.BorderRadius = 0;
+            this.chkLocTienIch.CheckedState.BorderThickness = 0;
+            this.chkLocTienIch.CheckedState.FillColor = System.Drawing.Color.Green;
+            this.chkLocTienIch.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkLocTienIch.ForeColor = System.Drawing.Color.Black;
+            this.chkLocTienIch.Location = new System.Drawing.Point(34, 98);
+            this.chkLocTienIch.Name = "chkLocTienIch";
+            this.chkLocTienIch.Size = new System.Drawing.Size(74, 21);
+            this.chkLocTienIch.TabIndex = 5;
+            this.chkLocTienIch.Text = "Tiện ích";
+            this.chkLocTienIch.UncheckedState.BorderColor = System.Drawing.Color.LimeGreen;
+            this.chkLocTienIch.UncheckedState.BorderRadius = 0;
+            this.chkLocTienIch.UncheckedState.BorderThickness = 0;
+            this.chkLocTienIch.UncheckedState.FillColor = System.Drawing.Color.White;
+            this.chkLocTienIch.UseVisualStyleBackColor = false;
             // 
-            // guna2CheckBox2
+            // chkLocCongViec
             // 
-            this.guna2CheckBox2.AutoSize = true;
-            this.guna2CheckBox2.BackColor = System.Drawing.Color.Transparent;
-            this.guna2CheckBox2.CheckedState.BorderColor = System.Drawing.Color.LightGray;
-            this.guna2CheckBox2.CheckedState.BorderRadius = 0;
-            this.guna2CheckBox2.CheckedState.BorderThickness = 0;
-            this.guna2CheckBox2.CheckedState.FillColor = System.Drawing.Color.Blue;
-            this.guna2CheckBox2.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2CheckBox2.ForeColor = System.Drawing.Color.Black;
-            this.guna2CheckBox2.Location = new System.Drawing.Point(34, 41);
-            this.guna2CheckBox2.Name = "guna2CheckBox2";
-            this.guna2CheckBox2.Size = new System.Drawing.Size(87, 21);
-            this.guna2CheckBox2.TabIndex = 3;
-            this.guna2CheckBox2.Text = "Công việc";
-            this.guna2CheckBox2.UncheckedState.BorderColor = System.Drawing.Color.RoyalBlue;
-            this.guna2CheckBox2.UncheckedState.BorderRadius = 0;
-            this.guna2CheckBox2.UncheckedState.BorderThickness = 0;
-            this.guna2CheckBox2.UncheckedState.FillColor = System.Drawing.Color.White;
-            this.guna2CheckBox2.UseVisualStyleBackColor = false;
+            this.chkLocCongViec.AutoSize = true;
+            this.chkLocCongViec.BackColor = System.Drawing.Color.Transparent;
+            this.chkLocCongViec.CheckedState.BorderColor = System.Drawing.Color.LightGray;
+            this.chkLocCongViec.CheckedState.BorderRadius = 0;
+            this.chkLocCongViec.CheckedState.BorderThickness = 0;
+            this.chkLocCongViec.CheckedState.FillColor = System.Drawing.Color.Blue;
+            this.chkLocCongViec.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkLocCongViec.ForeColor = System.Drawing.Color.Black;
+            this.chkLocCongViec.Location = new System.Drawing.Point(34, 41);
+            this.chkLocCongViec.Name = "chkLocCongViec";
+            this.chkLocCongViec.Size = new System.Drawing.Size(87, 21);
+            this.chkLocCongViec.TabIndex = 3;
+            this.chkLocCongViec.Text = "Công việc";
+            this.chkLocCongViec.UncheckedState.BorderColor = System.Drawing.Color.RoyalBlue;
+            this.chkLocCongViec.UncheckedState.BorderRadius = 0;
+            this.chkLocCongViec.UncheckedState.BorderThickness = 0;
+            this.chkLocCongViec.UncheckedState.FillColor = System.Drawing.Color.White;
+            this.chkLocCongViec.UseVisualStyleBackColor = false;
             // 
-            // guna2CheckBox3
+            // chkLocHocTap
             // 
-            this.guna2CheckBox3.AutoSize = true;
-            this.guna2CheckBox3.BackColor = System.Drawing.Color.Transparent;
-            this.guna2CheckBox3.CheckedState.BorderColor = System.Drawing.Color.LightGray;
-            this.guna2CheckBox3.CheckedState.BorderRadius = 0;
-            this.guna2CheckBox3.CheckedState.BorderThickness = 0;
-            this.guna2CheckBox3.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.guna2CheckBox3.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2CheckBox3.ForeColor = System.Drawing.Color.Black;
-            this.guna2CheckBox3.Location = new System.Drawing.Point(34, 71);
-            this.guna2CheckBox3.Name = "guna2CheckBox3";
-            this.guna2CheckBox3.Size = new System.Drawing.Size(76, 21);
-            this.guna2CheckBox3.TabIndex = 4;
-            this.guna2CheckBox3.Text = "Học tập";
-            this.guna2CheckBox3.UncheckedState.BorderColor = System.Drawing.Color.Orange;
-            this.guna2CheckBox3.UncheckedState.BorderRadius = 0;
-            this.guna2CheckBox3.UncheckedState.BorderThickness = 0;
-            this.guna2CheckBox3.UncheckedState.FillColor = System.Drawing.Color.White;
-            this.guna2CheckBox3.UseVisualStyleBackColor = false;
+            this.chkLocHocTap.AutoSize = true;
+            this.chkLocHocTap.BackColor = System.Drawing.Color.Transparent;
+            this.chkLocHocTap.CheckedState.BorderColor = System.Drawing.Color.LightGray;
+            this.chkLocHocTap.CheckedState.BorderRadius = 0;
+            this.chkLocHocTap.CheckedState.BorderThickness = 0;
+            this.chkLocHocTap.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.chkLocHocTap.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkLocHocTap.ForeColor = System.Drawing.Color.Black;
+            this.chkLocHocTap.Location = new System.Drawing.Point(34, 71);
+            this.chkLocHocTap.Name = "chkLocHocTap";
+            this.chkLocHocTap.Size = new System.Drawing.Size(76, 21);
+            this.chkLocHocTap.TabIndex = 4;
+            this.chkLocHocTap.Text = "Học tập";
+            this.chkLocHocTap.UncheckedState.BorderColor = System.Drawing.Color.Orange;
+            this.chkLocHocTap.UncheckedState.BorderRadius = 0;
+            this.chkLocHocTap.UncheckedState.BorderThickness = 0;
+            this.chkLocHocTap.UncheckedState.FillColor = System.Drawing.Color.White;
+            this.chkLocHocTap.UseVisualStyleBackColor = false;
             // 
-            // guna2CheckBox1
+            // chkLocGiaiTri
             // 
-            this.guna2CheckBox1.AutoSize = true;
-            this.guna2CheckBox1.BackColor = System.Drawing.Color.Transparent;
-            this.guna2CheckBox1.CheckedState.BorderColor = System.Drawing.Color.LightGray;
-            this.guna2CheckBox1.CheckedState.BorderRadius = 0;
-            this.guna2CheckBox1.CheckedState.BorderThickness = 0;
-            this.guna2CheckBox1.CheckedState.FillColor = System.Drawing.Color.Red;
-            this.guna2CheckBox1.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2CheckBox1.ForeColor = System.Drawing.Color.Black;
-            this.guna2CheckBox1.Location = new System.Drawing.Point(34, 14);
-            this.guna2CheckBox1.Name = "guna2CheckBox1";
-            this.guna2CheckBox1.Size = new System.Drawing.Size(68, 21);
-            this.guna2CheckBox1.TabIndex = 2;
-            this.guna2CheckBox1.Text = "Giải trí";
-            this.guna2CheckBox1.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.guna2CheckBox1.UncheckedState.BorderRadius = 0;
-            this.guna2CheckBox1.UncheckedState.BorderThickness = 0;
-            this.guna2CheckBox1.UncheckedState.FillColor = System.Drawing.Color.White;
-            this.guna2CheckBox1.UseVisualStyleBackColor = false;
+            this.chkLocGiaiTri.AutoSize = true;
+            this.chkLocGiaiTri.BackColor = System.Drawing.Color.Transparent;
+            this.chkLocGiaiTri.CheckedState.BorderColor = System.Drawing.Color.LightGray;
+            this.chkLocGiaiTri.CheckedState.BorderRadius = 0;
+            this.chkLocGiaiTri.CheckedState.BorderThickness = 0;
+            this.chkLocGiaiTri.CheckedState.FillColor = System.Drawing.Color.Red;
+            this.chkLocGiaiTri.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkLocGiaiTri.ForeColor = System.Drawing.Color.Black;
+            this.chkLocGiaiTri.Location = new System.Drawing.Point(34, 14);
+            this.chkLocGiaiTri.Name = "chkLocGiaiTri";
+            this.chkLocGiaiTri.Size = new System.Drawing.Size(68, 21);
+            this.chkLocGiaiTri.TabIndex = 2;
+            this.chkLocGiaiTri.Text = "Giải trí";
+            this.chkLocGiaiTri.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.chkLocGiaiTri.UncheckedState.BorderRadius = 0;
+            this.chkLocGiaiTri.UncheckedState.BorderThickness = 0;
+            this.chkLocGiaiTri.UncheckedState.FillColor = System.Drawing.Color.White;
+            this.chkLocGiaiTri.UseVisualStyleBackColor = false;
             // 
             // calMini
             // 
@@ -394,6 +353,69 @@
             this.tlpLich.Size = new System.Drawing.Size(1021, 1200);
             this.tlpLich.TabIndex = 0;
             // 
+            // btnThongKe
+            // 
+            this.btnThongKe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnThongKe.BackColor = System.Drawing.Color.Transparent;
+            this.btnThongKe.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnThongKe.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnThongKe.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnThongKe.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnThongKe.FillColor = System.Drawing.Color.Transparent;
+            this.btnThongKe.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnThongKe.ForeColor = System.Drawing.Color.White;
+            this.btnThongKe.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(250)))), ((int)(((byte)(251)))));
+            this.btnThongKe.Image = global::QuanLyDangKy.Properties.Resources.ThongKe_icon1;
+            this.btnThongKe.ImageSize = new System.Drawing.Size(30, 30);
+            this.btnThongKe.Location = new System.Drawing.Point(1006, 10);
+            this.btnThongKe.Name = "btnThongKe";
+            this.btnThongKe.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            this.btnThongKe.Size = new System.Drawing.Size(40, 40);
+            this.btnThongKe.TabIndex = 3;
+            this.btnThongKe.Click += new System.EventHandler(this.btnThongKe_Click);
+            // 
+            // btnCaiDat
+            // 
+            this.btnCaiDat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCaiDat.BackColor = System.Drawing.Color.Transparent;
+            this.btnCaiDat.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnCaiDat.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnCaiDat.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnCaiDat.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnCaiDat.FillColor = System.Drawing.Color.Transparent;
+            this.btnCaiDat.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnCaiDat.ForeColor = System.Drawing.Color.White;
+            this.btnCaiDat.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(250)))), ((int)(((byte)(251)))));
+            this.btnCaiDat.Image = global::QuanLyDangKy.Properties.Resources.settings_icon1;
+            this.btnCaiDat.ImageSize = new System.Drawing.Size(35, 35);
+            this.btnCaiDat.Location = new System.Drawing.Point(1064, 9);
+            this.btnCaiDat.Name = "btnCaiDat";
+            this.btnCaiDat.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            this.btnCaiDat.Size = new System.Drawing.Size(40, 40);
+            this.btnCaiDat.TabIndex = 2;
+            this.btnCaiDat.Click += new System.EventHandler(this.btnCaiDat_Click);
+            // 
+            // chkLocKhac
+            // 
+            this.chkLocKhac.AutoSize = true;
+            this.chkLocKhac.BackColor = System.Drawing.Color.Transparent;
+            this.chkLocKhac.CheckedState.BorderColor = System.Drawing.Color.LightGray;
+            this.chkLocKhac.CheckedState.BorderRadius = 0;
+            this.chkLocKhac.CheckedState.BorderThickness = 0;
+            this.chkLocKhac.CheckedState.FillColor = System.Drawing.Color.Green;
+            this.chkLocKhac.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkLocKhac.ForeColor = System.Drawing.Color.Black;
+            this.chkLocKhac.Location = new System.Drawing.Point(34, 125);
+            this.chkLocKhac.Name = "chkLocKhac";
+            this.chkLocKhac.Size = new System.Drawing.Size(58, 21);
+            this.chkLocKhac.TabIndex = 6;
+            this.chkLocKhac.Text = "Khác";
+            this.chkLocKhac.UncheckedState.BorderColor = System.Drawing.Color.LimeGreen;
+            this.chkLocKhac.UncheckedState.BorderRadius = 0;
+            this.chkLocKhac.UncheckedState.BorderThickness = 0;
+            this.chkLocKhac.UncheckedState.FillColor = System.Drawing.Color.White;
+            this.chkLocKhac.UseVisualStyleBackColor = false;
+            // 
             // TrangChuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -406,7 +428,8 @@
             this.Controls.Add(this.pnlTop);
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "TrangChuForm";
-            this.Text = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Trang chủ";
             this.Load += new System.EventHandler(this.TrangChuForm_Load);
             this.pnlTop.ResumeLayout(false);
             this.pnlTop.PerformLayout();
@@ -432,15 +455,16 @@
         private Guna.UI2.WinForms.Guna2Panel pnlSidebar;
         private System.Windows.Forms.Label lblHomNay;
         private System.Windows.Forms.MonthCalendar calMini;
-        private Guna.UI2.WinForms.Guna2CheckBox guna2CheckBox1;
+        private Guna.UI2.WinForms.Guna2CheckBox chkLocGiaiTri;
         private Guna.UI2.WinForms.Guna2Panel pnlDanhSachBoLoc;
-        private Guna.UI2.WinForms.Guna2CheckBox guna2CheckBox4;
-        private Guna.UI2.WinForms.Guna2CheckBox guna2CheckBox2;
-        private Guna.UI2.WinForms.Guna2CheckBox guna2CheckBox3;
+        private Guna.UI2.WinForms.Guna2CheckBox chkLocTienIch;
+        private Guna.UI2.WinForms.Guna2CheckBox chkLocCongViec;
+        private Guna.UI2.WinForms.Guna2CheckBox chkLocHocTap;
         private Guna.UI2.WinForms.Guna2Button btnToggleBoLoc;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TableLayoutPanel tlpLich;
         private Guna.UI2.WinForms.Guna2Button btnThemLich;
+        private Guna.UI2.WinForms.Guna2CheckBox chkLocKhac;
     }
 }
 

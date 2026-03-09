@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using QuanLyDangKy.Data;
 using QuanLyDangKy.Models;
@@ -11,127 +11,230 @@ namespace QuanLyDangKy.Views
 {
     public partial class TrangChuForm : Form
     {
-        // Khai báo biến toàn cục lưu mốc thời gian của Lưới
         private DateTime ngayBatDauLich;
+        private DateTime ngayDuocChon;
 
         public TrangChuForm()
         {
             InitializeComponent();
+
+            // --- BẬT DOUBLE BUFFERING CHỐNG GIẬT CHO BẢNG LỊCH ---
+            typeof(TableLayoutPanel).InvokeMember("DoubleBuffered",
+                System.Reflection.BindingFlags.SetProperty |
+                System.Reflection.BindingFlags.Instance |
+                System.Reflection.BindingFlags.NonPublic,
+                null, tlpLich, new object[] { true });
+
+            this.panel1.Resize += panel1_Resize;
         }
 
-        // ==========================================
-        // 1. SỰ KIỆN KHI TẢI FORM
-        // ==========================================
+        // TỰ ĐỘNG CHIA 6 DÒNG - 7 CỘT KHI KÉO CỬA SỔ
+        private void panel1_Resize(object sender, EventArgs e)
+        {
+            if (tlpLich != null && panel1.ClientSize.Height > 0 && panel1.ClientSize.Width > 0 && tlpLich.ColumnCount > 0)
+            {
+                // Chia chiều cao 6 dòng
+                int soDongHienThi = 6;
+                int chieuCaoMotDong = (panel1.ClientSize.Height - 60) / soDongHienThi;
+                if (chieuCaoMotDong < 45) chieuCaoMotDong = 45;
+                tlpLich.Height = 60 + (14 * chieuCaoMotDong);
+
+                // Chia chiều rộng đúng 7 cột
+                float chieuRongCot = (float)panel1.ClientSize.Width / 7f;
+                if (chieuRongCot < 120f) chieuRongCot = 120f;
+
+                for (int i = 0; i < tlpLich.ColumnCount; i++)
+                {
+                    tlpLich.ColumnStyles[i].Width = chieuRongCot;
+                }
+                tlpLich.Width = (int)(tlpLich.ColumnCount * chieuRongCot);
+            }
+        }
+
         private void TrangChuForm_Load(object sender, EventArgs e)
         {
-            VeKhungGioLich();
+            ngayDuocChon = DateTime.Now.Date;
             CapNhatGiaoDienDangNhap();
             lblHomNay.Text = "Hôm nay: " + DateTime.Now.ToString("dd/MM/yyyy");
             btnThemLich.BringToFront();
         }
 
         // ==========================================
-        // VẼ LƯỚI THỜI GIAN (ĐÃ CẬP NHẬT CỬA SỔ TRƯỢT)
+        // VẼ KHUNG LỊCH 60 NGÀY LIÊN TỤC
         // ==========================================
         private void VeKhungGioLich()
         {
-            // Khởi tạo mốc thời gian mặc định nếu chưa có (lúc mới mở Form)
-            if (ngayBatDauLich == DateTime.MinValue)
-            {
-                ngayBatDauLich = DateTime.Now.Date.AddDays(-30);
-            }
-
-            // BẮT BUỘC: Nín thở UI và reset thanh cuộn về 0 để chống kẹt
-            panel1.SuspendLayout();
-            tlpLich.SuspendLayout();
-            panel1.AutoScrollPosition = new Point(0, 0);
-
             tlpLich.Controls.Clear();
             tlpLich.ColumnStyles.Clear();
             tlpLich.RowStyles.Clear();
 
-            // Luôn chỉ giữ 60 ngày trên RAM cho nhẹ máy
-            int soNgayHienThi = 60;
+            int soNgayHienThi = 60; // Render 60 ngày để cuộn qua lại
+            int soDongGoi = 14;
 
-            tlpLich.ColumnCount = soNgayHienThi + 1;
-            tlpLich.RowCount = 25;
-
-            // Cởi trói thanh cuộn (Chống giật khung hình)
+            tlpLich.ColumnCount = soNgayHienThi;
+            tlpLich.RowCount = soDongGoi + 1;
             tlpLich.Dock = DockStyle.None;
-            // KHÔNG ĐƯỢC GÁN tlpLich.Location Ở ĐÂY NỮA
 
-            tlpLich.Width = 60 + (soNgayHienThi * 150);
-            tlpLich.Height = 50 + (24 * 50);
+            // Tính toán 7 Cột
+            float chieuRongCot = (float)panel1.ClientSize.Width / 7f;
+            if (chieuRongCot < 120f) chieuRongCot = 120f;
+            tlpLich.Width = (int)(soNgayHienThi * chieuRongCot);
 
-            // Vẽ Cột
-            tlpLich.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 60F));
-            for (int i = 1; i <= soNgayHienThi; i++)
-                tlpLich.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
+            // Tính toán 6 Dòng
+            int chieuCaoManHinh = panel1.ClientSize.Height > 0 ? panel1.ClientSize.Height : 720;
+            int chieuCaoDongBanDau = (chieuCaoManHinh - 60) / 6;
+            if (chieuCaoDongBanDau < 45) chieuCaoDongBanDau = 45;
+            tlpLich.Height = 60 + (soDongGoi * chieuCaoDongBanDau);
 
-            // Vẽ Hàng
-            tlpLich.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            for (int i = 1; i <= 24; i++)
-                tlpLich.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            // Gán thông số
+            for (int i = 0; i < soNgayHienThi; i++)
+                tlpLich.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, chieuRongCot));
 
-            // Đổ text 24 Giờ
-            for (int i = 0; i < 24; i++)
+            tlpLich.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            float chieuCaoPhanTram = 100f / soDongGoi;
+            for (int i = 1; i <= soDongGoi; i++)
+                tlpLich.RowStyles.Add(new RowStyle(SizeType.Percent, chieuCaoPhanTram));
+
+            // Đổ Label Ngày
+            for (int i = 0; i < soNgayHienThi; i++)
             {
-                Label lblGio = new Label();
-                lblGio.Text = i == 0 ? "12 AM" : (i < 12 ? $"{i} AM" : (i == 12 ? "12 PM" : $"{i - 12} PM"));
-                lblGio.AutoSize = false;
-                lblGio.TextAlign = ContentAlignment.TopRight;
-                lblGio.Dock = DockStyle.Fill;
-                lblGio.ForeColor = Color.Gray;
-                lblGio.Font = new Font("Segoe UI", 8);
-
-                tlpLich.Controls.Add(lblGio, 0, i + 1);
-            }
-
-            // Đổ text 60 Ngày
-            for (int i = 1; i <= soNgayHienThi; i++)
-            {
-                DateTime ngayHienTai = ngayBatDauLich.AddDays(i - 1);
+                DateTime ngayHienTai = ngayBatDauLich.AddDays(i);
                 Label lblNgay = new Label();
-
                 lblNgay.Text = ngayHienTai.ToString("ddd\ndd/MM");
                 lblNgay.AutoSize = false;
                 lblNgay.TextAlign = ContentAlignment.MiddleCenter;
                 lblNgay.Dock = DockStyle.Fill;
+                lblNgay.Margin = new Padding(0);
 
                 if (ngayHienTai.Date == DateTime.Now.Date)
                 {
                     lblNgay.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-                    lblNgay.ForeColor = Color.FromArgb(12, 97, 242);
+                    lblNgay.ForeColor = Color.White;
+                    lblNgay.BackColor = Color.Crimson;
+                }
+                else if (ngayHienTai.Date == ngayDuocChon.Date)
+                {
+                    lblNgay.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+                    lblNgay.ForeColor = Color.White;
+                    lblNgay.BackColor = Color.ForestGreen;
                 }
                 else
                 {
                     lblNgay.Font = new Font("Segoe UI", 10, FontStyle.Regular);
                     lblNgay.ForeColor = Color.DimGray;
+                    lblNgay.BackColor = Color.Transparent;
                 }
 
                 tlpLich.Controls.Add(lblNgay, i, 0);
             }
-
-            // XONG XUÔI THÌ CHO PHÉP VẼ LẠI
-            tlpLich.ResumeLayout();
-            panel1.ResumeLayout();
         }
 
         // ==========================================
-        // THUẬT TOÁN CUỘN ĐẾN NGÀY CHỈ ĐỊNH
+        // TẢI DỮ LIỆU ĐẸP & CHUẨN
         // ==========================================
-        private void CuonDenNgay(DateTime ngayDich)
+        public void TaiDuLieuLenLich(DateTime ngayDich)
         {
-            if (panel1 == null || tlpLich == null) return;
+            tlpLich.Visible = false;
+            panel1.SuspendLayout();
+            tlpLich.SuspendLayout();
 
-            // Tính số ngày chênh lệch để tìm tọa độ cột
-            int soNgay = (int)(ngayDich.Date - ngayBatDauLich.Date).TotalDays;
-            if (soNgay < 0) soNgay = 0;
-            if (soNgay > 60) soNgay = 60;
+            // Đặt ngày chọn làm tâm, thụt lùi 30 ngày để lấy đà cuộn
+            ngayBatDauLich = ngayDich.Date.AddDays(-30);
+            ngayDuocChon = ngayDich.Date;
 
-            int toaDoX = 60 + (soNgay * 150);
+            VeKhungGioLich();
 
-            // Dùng BeginInvoke để xếp hàng lệnh cuộn về cuối cùng, chờ giao diện load xong
+            if (PhienDangNhap.MaNguoiDungHienTai != -1)
+            {
+                try
+                {
+                    List<string> theLoaiDuocChon = new List<string>();
+                    if (chkLocGiaiTri.Checked) theLoaiDuocChon.Add("Giải trí");
+                    if (chkLocCongViec.Checked) theLoaiDuocChon.Add("Công việc");
+                    if (chkLocHocTap.Checked) theLoaiDuocChon.Add("Học tập");
+                    if (chkLocTienIch.Checked) theLoaiDuocChon.Add("Tiện ích");
+                    if (chkLocKhac.Checked) theLoaiDuocChon.Add("Khác");
+
+                    KetNoiDuLieu db = new KetNoiDuLieu();
+                    using (MySqlConnection conn = new MySqlConnection(db.LayChuoiKetNoi()))
+                    {
+                        string query = "SELECT TenDichVu, TheLoai, NgayGiaHan, TrangThaiHoatDong, MauSac FROM GoiDangKy WHERE MaNguoiDung = @uid ORDER BY NgayGiaHan ASC";
+                        using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@uid", PhienDangNhap.MaNguoiDungHienTai);
+                            conn.Open();
+                            using (MySqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                Dictionary<DateTime, int> slotTheoNgay = new Dictionary<DateTime, int>();
+
+                                while (reader.Read())
+                                {
+                                    string ten = reader.GetString("TenDichVu");
+                                    string loai = reader.GetString("TheLoai");
+                                    DateTime han = reader.GetDateTime("NgayGiaHan").Date;
+                                    bool active = reader.GetBoolean("TrangThaiHoatDong");
+                                    string maMau = reader.GetString("MauSac");
+
+                                    // Lọc thể loại
+                                    if (theLoaiDuocChon.Count > 0 && !theLoaiDuocChon.Contains(loai))
+                                        continue;
+
+                                    int col = (int)(han - ngayBatDauLich).TotalDays;
+
+                                    // Chỉ đổ những gói rơi vào mảng 60 ngày đang hiển thị
+                                    if (col >= 0 && col < 60)
+                                    {
+                                        if (!slotTheoNgay.ContainsKey(han)) slotTheoNgay[han] = 1;
+                                        else slotTheoNgay[han]++;
+
+                                        int row = slotTheoNgay[han];
+
+                                        if (row <= 14)
+                                        {
+                                            Guna.UI2.WinForms.Guna2Button btnGoi = new Guna.UI2.WinForms.Guna2Button();
+                                            btnGoi.Text = ten;
+                                            btnGoi.Dock = DockStyle.Fill;
+                                            btnGoi.BorderRadius = 5;
+                                            btnGoi.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+                                            btnGoi.TextAlign = HorizontalAlignment.Left;
+                                            btnGoi.Margin = new Padding(3);
+
+                                            if (!active)
+                                            {
+                                                btnGoi.FillColor = Color.LightGray;
+                                                btnGoi.ForeColor = Color.DimGray;
+                                                btnGoi.Text = "[Đã Hủy]\n" + ten;
+                                            }
+                                            else
+                                            {
+                                                try { btnGoi.FillColor = ColorTranslator.FromHtml(maMau); }
+                                                catch { btnGoi.FillColor = Color.FromArgb(52, 168, 83); }
+                                            }
+
+                                            tlpLich.Controls.Add(btnGoi, col, row);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex) { MessageBox.Show("Lỗi tải lịch: " + ex.Message); }
+            }
+
+            // Tự động cuộn sao cho Ngày đang chọn (Cột số 30) nằm ngay giữa màn hình
+            float chieuRongCotDinam = (float)panel1.ClientSize.Width / 7f;
+            if (chieuRongCotDinam < 120f) chieuRongCotDinam = 120f;
+
+            // Lùi lại 3 cột để ngày số 30 nằm ở giữa 7 cột
+            int toaDoX = (int)((30 - 3) * chieuRongCotDinam);
+            if (toaDoX < 0) toaDoX = 0;
+
+            panel1.AutoScrollPosition = new Point(0, 0);
+            tlpLich.ResumeLayout(true);
+            panel1.ResumeLayout(true);
+            tlpLich.Visible = true;
+
             this.BeginInvoke((MethodInvoker)delegate
             {
                 panel1.AutoScrollPosition = new Point(toaDoX, 0);
@@ -139,7 +242,7 @@ namespace QuanLyDangKy.Views
         }
 
         // ==========================================
-        // 4. LOGIC ĐĂNG NHẬP VÀ UI TOPBAR (ĐÃ NÂNG CẤP AVATAR)
+        // LOGIC ĐĂNG NHẬP & SỰ KIỆN NÚT BẤM (GIỮ NGUYÊN)
         // ==========================================
         private void CapNhatGiaoDienDangNhap()
         {
@@ -150,9 +253,6 @@ namespace QuanLyDangKy.Views
                 btnMoDangNhap.Text = "ĐĂNG NHẬP";
                 btnMoDangNhap.Image = null;
                 btnMoDangNhap.ContextMenuStrip = null;
-
-                tlpLich.Controls.Clear();
-                VeKhungGioLich();
             }
             else
             {
@@ -162,64 +262,16 @@ namespace QuanLyDangKy.Views
 
                 try
                 {
-                    // 1. Lấy đường dẫn ảnh mặc định trước (phòng khi user chưa có ảnh)
                     string avatarPath = System.IO.Path.Combine(Application.StartupPath, "Icon", "avatar_default.png");
-
-                    // 2. Mở Database kiểm tra xem user này đã lưu ảnh nào chưa
-                    KetNoiDuLieu db = new KetNoiDuLieu();
-                    using (MySqlConnection conn = new MySqlConnection(db.LayChuoiKetNoi()))
-                    {
-                        string query = "SELECT AvatarPath FROM NguoiDung WHERE MaNguoiDung = @uid";
-                        using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                        {
-                            cmd.Parameters.AddWithValue("@uid", PhienDangNhap.MaNguoiDungHienTai);
-                            conn.Open();
-                            object result = cmd.ExecuteScalar(); // Lấy đúng 1 ô dữ liệu
-
-                            // Nếu trong DB có đường dẫn ảnh, và ảnh đó thực sự tồn tại trong máy tính
-                            if (result != null && result != DBNull.Value)
-                            {
-                                string dbPath = result.ToString();
-                                if (System.IO.File.Exists(dbPath))
-                                {
-                                    avatarPath = dbPath; // Thay ảnh mặc định bằng ảnh của User
-                                }
-                            }
-                        }
-                    }
-
-                    // 3. Ốp ảnh lên nút Avatar ở góc phải trên cùng Trang chủ
                     btnMoDangNhap.Image = Image.FromFile(avatarPath);
                     btnMoDangNhap.ImageAlign = HorizontalAlignment.Center;
-                    btnMoDangNhap.ImageSize = new Size(45, 45); // Ép ảnh vừa đúng với viền nút 45x45
+                    btnMoDangNhap.ImageSize = new Size(45, 45);
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Lỗi load Avatar ra trang chủ: " + ex.Message);
-                }
-
+                catch { }
                 btnMoDangNhap.ContextMenuStrip = menuTaiKhoan;
-                TaiDuLieuLenLich();
-
-                // Trượt lề về ngày Hôm nay
-                ThayDoiMocThoiGian(DateTime.Now);
             }
-        }
 
-        // ==========================================
-        // SIÊU HÀM: DỊCH CHUYỂN CỬA SỔ THỜI GIAN
-        // ==========================================
-        private void ThayDoiMocThoiGian(DateTime ngayDich)
-        {
-            // 1. Dời mốc bắt đầu lịch sang 30 ngày trước của ngày bạn vừa chọn
-            ngayBatDauLich = ngayDich.Date.AddDays(-30);
-
-            // 2. Gọi hàm vẽ lại toàn bộ lưới và tải dữ liệu gói đăng ký
-            // (Nó sẽ tự động chỉ lấy các gói rơi vào 60 ngày của vùng không gian mới)
-            TaiDuLieuLenLich();
-
-            // 3. Cuộn thanh trượt ngang về đúng ngày bạn chọn
-            CuonDenNgay(ngayDich);
+            TaiDuLieuLenLich(DateTime.Now);
         }
 
         private void btnMoDangNhap_Click(object sender, EventArgs e)
@@ -233,10 +285,7 @@ namespace QuanLyDangKy.Views
                     lblHomNay.Text = $"Xin chào, {PhienDangNhap.TenDangNhapHienTai}!";
                 }
             }
-            else
-            {
-                menuTaiKhoan.Show(btnMoDangNhap, new Point(0, btnMoDangNhap.Height));
-            }
+            else menuTaiKhoan.Show(btnMoDangNhap, new Point(0, btnMoDangNhap.Height));
         }
 
         private void menuDangXuat_Click(object sender, EventArgs e)
@@ -247,22 +296,22 @@ namespace QuanLyDangKy.Views
             lblHomNay.Text = "Hôm nay: " + DateTime.Now.ToString("dd/MM/yyyy");
         }
 
-        // ==========================================
-        // 5. CÁC SỰ KIỆN SIDEBAR VÀ TOPBAR
-        // ==========================================
         private void btnToggleBoLoc_Click(object sender, EventArgs e)
         {
             pnlDanhSachBoLoc.Visible = !pnlDanhSachBoLoc.Visible;
             btnToggleBoLoc.Text = pnlDanhSachBoLoc.Visible ? "▼ Lọc Theo Thể Loại" : "▶ Lọc Theo Thể Loại";
         }
 
+        private void BoLoc_CheckedChanged(object sender, EventArgs e)
+        {
+            TaiDuLieuLenLich(ngayDuocChon != DateTime.MinValue ? ngayDuocChon : DateTime.Now);
+        }
+
         private void calMini_DateSelected(object sender, DateRangeEventArgs e)
         {
             DateTime ngayChon = calMini.SelectionRange.Start;
             lblHomNay.Text = "Đang xem: " + ngayChon.ToString("dd/MM/yyyy");
-
-            // Ép bảng lịch to lướt theo đến đúng ngày vừa click!
-            ThayDoiMocThoiGian(ngayChon);
+            TaiDuLieuLenLich(ngayChon);
         }
 
         private void btnThongKe_Click(object sender, EventArgs e)
@@ -312,83 +361,18 @@ namespace QuanLyDangKy.Views
         {
             if (PhienDangNhap.MaNguoiDungHienTai == -1)
             {
-                MessageBox.Show("Bạn cần đăng nhập để thêm gói mới!", "Nhắc nhở");
+                MessageBox.Show("Bạn cần đăng nhập để thêm gói mới!", "Nhắc nhở", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            MessageBox.Show("Sẵn sàng liên kết với ThemGoiForm!");
-        }
-
-        // ==========================================
-        // 6. TẢI DỮ LIỆU TỪ DATABASE VÀ VẼ KHỐI MÀU
-        // ==========================================
-        public void TaiDuLieuLenLich()
-        {
-            VeKhungGioLich();
-            try
+            using (ThemGoiForm frm = new ThemGoiForm())
             {
-                KetNoiDuLieu db = new KetNoiDuLieu();
-                using (MySqlConnection conn = new MySqlConnection(db.LayChuoiKetNoi()))
+                if (frm.ShowDialog() == DialogResult.OK)
                 {
-                    string query = "SELECT TenDichVu, TheLoai, NgayGiaHan, TrangThaiHoatDong FROM GoiDangKy WHERE MaNguoiDung = @uid";
-                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@uid", PhienDangNhap.MaNguoiDungHienTai);
-                        conn.Open();
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                string ten = reader.GetString("TenDichVu");
-                                string loai = reader.GetString("TheLoai");
-                                DateTime han = reader.GetDateTime("NgayGiaHan");
-                                bool active = reader.GetBoolean("TrangThaiHoatDong");
-
-                                // Tính tọa độ Cột (Số ngày lệch so với mốc bắt đầu)
-                                int col = (int)(han.Date - ngayBatDauLich.Date).TotalDays + 1;
-
-                                // Nội suy hàng (Giờ giả lập từ 8am - 8pm)
-                                int row = (ten.Length % 12) + 8 + 1;
-
-                                // Chỉ vẽ nếu ngày gia hạn nằm trong vùng lưới 60 ngày
-                                if (col >= 1 && col <= 60)
-                                {
-                                    Guna.UI2.WinForms.Guna2Button btnGoi = new Guna.UI2.WinForms.Guna2Button();
-                                    btnGoi.Text = ten;
-                                    btnGoi.Dock = DockStyle.Fill;
-                                    btnGoi.BorderRadius = 5;
-                                    btnGoi.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-                                    btnGoi.TextAlign = HorizontalAlignment.Left;
-                                    btnGoi.Margin = new Padding(3);
-
-                                    if (!active)
-                                    {
-                                        btnGoi.FillColor = Color.LightGray;
-                                        btnGoi.ForeColor = Color.DimGray;
-                                        btnGoi.Text = "[Hủy]\n" + ten;
-                                    }
-                                    else
-                                    {
-                                        switch (loai)
-                                        {
-                                            case "Giải trí": btnGoi.FillColor = Color.FromArgb(234, 67, 53); break;
-                                            case "Công việc": btnGoi.FillColor = Color.FromArgb(66, 133, 244); break;
-                                            case "Học tập": btnGoi.FillColor = Color.FromArgb(251, 188, 5); break;
-                                            default: btnGoi.FillColor = Color.FromArgb(52, 168, 83); break;
-                                        }
-                                    }
-
-                                    // Thêm khối màu vào lưới
-                                    tlpLich.Controls.Add(btnGoi, col, row);
-                                }
-                            }
-                        }
-                    }
+                    TaiDuLieuLenLich(ngayDuocChon != DateTime.MinValue ? ngayDuocChon : DateTime.Now);
                 }
             }
-            catch (Exception ex) { MessageBox.Show("Lỗi tải lịch: " + ex.Message); }
         }
-
         // ==========================================
         // 7. GỌI FORM SỬA THÔNG TIN CÁ NHÂN
         // ==========================================
