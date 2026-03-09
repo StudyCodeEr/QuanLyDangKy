@@ -137,7 +137,7 @@ namespace QuanLyDangKy.Views
                     string jsonBody = Newtonsoft.Json.JsonConvert.SerializeObject(requestBody);
                     var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
 
-                    HttpResponseMessage response = await client.PostAsync("https://api.groq.com/openai/v1/chat/completions", content);
+                    HttpResponseMessage response = await client.PostAsync("[https://api.groq.com/openai/v1/chat/completions](https://api.groq.com/openai/v1/chat/completions)", content);
                     string resultString = await response.Content.ReadAsStringAsync();
 
                     if (!response.IsSuccessStatusCode) throw new Exception("Lỗi API");
@@ -233,7 +233,7 @@ namespace QuanLyDangKy.Views
         }
 
         // ===============================================
-        // LƯU GÓI ĐĂNG KÝ VÀO CƠ SỞ DỮ LIỆU
+        // LƯU GÓI ĐĂNG KÝ VÀO CƠ SỞ DỮ LIỆU VÀ LƯU LỊCH SỬ
         // ===============================================
         private void btnXacNhan_Click(object sender, EventArgs e)
         {
@@ -255,6 +255,7 @@ namespace QuanLyDangKy.Views
                 {
                     conn.Open();
 
+                    // 1. LƯU GÓI MỚI
                     string qInsertGoi = @"INSERT INTO GoiDangKy (MaNguoiDung, TenDichVu, TheLoai, GiaGoc, DonViTienTe, NgayGiaHan, TrangThaiHoatDong, MauSac) 
                                           VALUES (@uid, @ten, @loai, @gia, @tiente, @ngay, 1, @mau)";
                     using (MySqlCommand cmd = new MySqlCommand(qInsertGoi, conn))
@@ -269,6 +270,19 @@ namespace QuanLyDangKy.Views
                         cmd.ExecuteNonQuery();
                     }
 
+                    // ===============================================
+                    // 2. LƯU VÀO BẢNG LỊCH SỬ HOẠT ĐỘNG (THÊM MỚI)
+                    // ===============================================
+                    string qLichSu = "INSERT INTO LichSuHoatDong (MaNguoiDung, TenDichVu, HanhDong, SoTien) VALUES (@uid, @ten, '✨ Đăng ký mới', @gia)";
+                    using (MySqlCommand cmdLS = new MySqlCommand(qLichSu, conn))
+                    {
+                        cmdLS.Parameters.AddWithValue("@uid", PhienDangNhap.MaNguoiDungHienTai);
+                        cmdLS.Parameters.AddWithValue("@ten", ten);
+                        cmdLS.Parameters.AddWithValue("@gia", gia);
+                        cmdLS.ExecuteNonQuery();
+                    }
+
+                    // 3. LƯU LÀM MẪU (NẾU CÓ TÍCH)
                     if (chkLuuMau.Checked)
                     {
                         string qXoaMauCu = "DELETE FROM GoiMau WHERE MaNguoiDung = @uid AND TenDichVu = @ten";

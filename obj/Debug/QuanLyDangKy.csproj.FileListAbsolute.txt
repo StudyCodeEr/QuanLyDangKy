@@ -56,3 +56,14 @@ C:\Users\NguyenKien\source\repos\QuanLyDangKy\obj\Debug\QuanLyDangKy.Views.ThemG
 C:\Users\NguyenKien\source\repos\QuanLyDangKy\bin\Debug\Newtonsoft.Json.dll
 C:\Users\NguyenKien\source\repos\QuanLyDangKy\bin\Debug\Newtonsoft.Json.xml
 C:\Users\NguyenKien\source\repos\QuanLyDangKy\obj\Debug\QuanLyDangKy.Views.ThongTinCaNhanForm.resources
+C:\Users\NguyenKien\source\repos\QuanLyDangKy\obj\Debug\QuanLyDangKy.Views.ChiTietGoiForm.resources
+C:\Users\NguyenKien\source\repos\QuanLyDangKy\bin\Debug\LiveCharts.dll
+C:\Users\NguyenKien\source\repos\QuanLyDangKy\bin\Debug\LiveCharts.WinForms.dll
+C:\Users\NguyenKien\source\repos\QuanLyDangKy\bin\Debug\LiveCharts.Wpf.dll
+C:\Users\NguyenKien\source\repos\QuanLyDangKy\bin\Debug\LiveCharts.pdb
+C:\Users\NguyenKien\source\repos\QuanLyDangKy\bin\Debug\LiveCharts.xml
+C:\Users\NguyenKien\source\repos\QuanLyDangKy\bin\Debug\LiveCharts.WinForms.pdb
+C:\Users\NguyenKien\source\repos\QuanLyDangKy\bin\Debug\LiveCharts.WinForms.xml
+C:\Users\NguyenKien\source\repos\QuanLyDangKy\bin\Debug\LiveCharts.Wpf.pdb
+C:\Users\NguyenKien\source\repos\QuanLyDangKy\bin\Debug\LiveCharts.Wpf.xml
+C:\Users\NguyenKien\source\repos\QuanLyDangKy\obj\Debug\QuanLyDangKy.Views.ThongKeForm.resources

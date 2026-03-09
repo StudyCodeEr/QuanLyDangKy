@@ -13,6 +13,7 @@ namespace QuanLyDangKy.Views
     {
         private DateTime ngayBatDauLich;
         private DateTime ngayDuocChon;
+        private ThongKeForm frmThongKe = null;
 
         public TrangChuForm()
         {
@@ -158,7 +159,8 @@ namespace QuanLyDangKy.Views
                     KetNoiDuLieu db = new KetNoiDuLieu();
                     using (MySqlConnection conn = new MySqlConnection(db.LayChuoiKetNoi()))
                     {
-                        string query = "SELECT TenDichVu, TheLoai, NgayGiaHan, TrangThaiHoatDong, MauSac FROM GoiDangKy WHERE MaNguoiDung = @uid ORDER BY NgayGiaHan ASC";
+                        // === ĐÃ SỬA: Bổ sung "MaGoi" vào SELECT ===
+                        string query = "SELECT MaGoi, TenDichVu, TheLoai, NgayGiaHan, TrangThaiHoatDong, MauSac FROM GoiDangKy WHERE MaNguoiDung = @uid ORDER BY NgayGiaHan ASC";
                         using (MySqlCommand cmd = new MySqlCommand(query, conn))
                         {
                             cmd.Parameters.AddWithValue("@uid", PhienDangNhap.MaNguoiDungHienTai);
@@ -169,6 +171,8 @@ namespace QuanLyDangKy.Views
 
                                 while (reader.Read())
                                 {
+                                    // === ĐÃ SỬA: Đọc "MaGoi" từ Database ===
+                                    int maGoi = reader.GetInt32("MaGoi");
                                     string ten = reader.GetString("TenDichVu");
                                     string loai = reader.GetString("TheLoai");
                                     DateTime han = reader.GetDateTime("NgayGiaHan").Date;
@@ -193,6 +197,12 @@ namespace QuanLyDangKy.Views
                                         {
                                             Guna.UI2.WinForms.Guna2Button btnGoi = new Guna.UI2.WinForms.Guna2Button();
                                             btnGoi.Text = ten;
+
+                                            // === ĐÃ SỬA: Gắn sự kiện và ID cho nút ===
+                                            btnGoi.Tag = maGoi;
+                                            btnGoi.Click += btnGoi_Click;
+                                            // =========================================
+
                                             btnGoi.Dock = DockStyle.Fill;
                                             btnGoi.BorderRadius = 5;
                                             btnGoi.Font = new Font("Segoe UI", 9, FontStyle.Bold);
@@ -316,35 +326,53 @@ namespace QuanLyDangKy.Views
 
         private void btnThongKe_Click(object sender, EventArgs e)
         {
-            if (PhienDangNhap.MaNguoiDungHienTai == -1) return;
-            try
+            if (PhienDangNhap.MaNguoiDungHienTai == -1)
             {
-                KetNoiDuLieu db = new KetNoiDuLieu();
-                decimal tongChiPhi = 0;
-                decimal chiPhiRac = 0;
-
-                using (MySqlConnection conn = new MySqlConnection(db.LayChuoiKetNoi()))
-                {
-                    string query = "SELECT GiaGoc, TrangThaiHoatDong FROM GoiDangKy WHERE MaNguoiDung = @uid";
-                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@uid", PhienDangNhap.MaNguoiDungHienTai);
-                        conn.Open();
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                decimal gia = reader.GetDecimal("GiaGoc");
-                                bool dangHoatDong = reader.GetBoolean("TrangThaiHoatDong");
-                                tongChiPhi += gia;
-                                if (!dangHoatDong) chiPhiRac += gia;
-                            }
-                        }
-                    }
-                }
-                MessageBox.Show($"Tổng chi tiêu: {tongChiPhi:N0} VNĐ\nChi phí rác (Đã ngưng): {chiPhiRac:N0} VNĐ", "Thống Kê");
+                MessageBox.Show("Bạn cần đăng nhập để xem thống kê!", "Nhắc nhở", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-            catch (Exception ex) { MessageBox.Show("Lỗi: " + ex.Message); }
+
+            // Tính năng Toggle (Bật/Tắt): Đóng form thống kê và quay lại trang chủ
+            if (frmThongKe != null && !frmThongKe.IsDisposed)
+            {
+                frmThongKe.Close();
+                frmThongKe = null;
+
+                // 1. HIỆN LẠI PANEL
+                panel1.Visible = true;
+                pnlSidebar.Visible = true;
+
+                // 2. KHẮC PHỤC LỖI SIDEBAR CHE TOPBAR (Sắp xếp lại Z-Order)
+                // Trong WinForms, SendToBack() giúp Control lấy không gian Docking ĐẦU TIÊN
+                pnlTop.SendToBack();       // TopBar chiếm toàn bộ chiều ngang trên cùng trước
+                pnlSidebar.BringToFront(); // Sau đó Sidebar mới được chiếm lề trái
+                panel1.BringToFront();     // Cuối cùng Lịch lấp đầy phần còn lại
+
+                // 3. KHẮC PHỤC LỖI TỤT DÒNG NGÀY: Vẽ lại lịch để TableLayoutPanel tính lại phần trăm
+                TaiDuLieuLenLich(ngayDuocChon != DateTime.MinValue ? ngayDuocChon : DateTime.Now);
+
+                return;
+            }
+
+            // ẨN LỊCH VÀ SIDEBAR ĐỂ NHƯỜNG KHÔNG GIAN CHO THỐNG KÊ
+            panel1.Visible = false;
+            pnlSidebar.Visible = false;
+
+            // Khởi tạo Form Thống Kê
+            frmThongKe = new ThongKeForm();
+            frmThongKe.TopLevel = false;
+            frmThongKe.FormBorderStyle = FormBorderStyle.None;
+            frmThongKe.Dock = DockStyle.Fill;
+
+            this.Controls.Add(frmThongKe);
+
+            // Đảm bảo Form Thống kê hiển thị đúng chỗ
+            frmThongKe.BringToFront();
+
+            // Đảm bảo thanh TopBar luôn nổi lên trên cùng (Che lên cả Form Thống kê)
+            pnlTop.BringToFront();
+
+            frmThongKe.Show();
         }
 
         private void btnCaiDat_Click(object sender, EventArgs e)
@@ -373,32 +401,50 @@ namespace QuanLyDangKy.Views
                 }
             }
         }
+
         // ==========================================
         // 7. GỌI FORM SỬA THÔNG TIN CÁ NHÂN
         // ==========================================
         private void menuSuaThongTin_Click(object sender, EventArgs e)
         {
-            // 1. Kiểm tra nếu chưa đăng nhập thì báo lỗi và không cho mở
             if (PhienDangNhap.MaNguoiDungHienTai == -1)
             {
                 MessageBox.Show("Bạn cần đăng nhập để xem thông tin!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 2. Mở cửa sổ Thông tin cá nhân
             using (ThongTinCaNhanForm frm = new ThongTinCaNhanForm())
             {
                 DialogResult ketQua = frm.ShowDialog();
 
-                // 3. Nếu người dùng bấm "Lưu" (trả về OK), load lại giao diện để cập nhật Avatar mới
                 if (ketQua == DialogResult.OK)
                 {
                     CapNhatGiaoDienDangNhap();
                 }
-                // 4. Nếu người dùng bấm "Xóa tài khoản" (trả về Abort), ép đăng xuất ngay
                 else if (ketQua == DialogResult.Abort)
                 {
                     menuDangXuat_Click(null, null);
+                }
+            }
+        }
+
+        // ==========================================
+        // === ĐÃ SỬA: HÀM SỰ KIỆN KHI CLICK VÀO GÓI ===
+        // ==========================================
+        private void btnGoi_Click(object sender, EventArgs e)
+        {
+            Guna.UI2.WinForms.Guna2Button btn = sender as Guna.UI2.WinForms.Guna2Button;
+            if (btn != null && btn.Tag != null)
+            {
+                int maGoiDuocChon = (int)btn.Tag;
+
+                using (ChiTietGoiForm frm = new ChiTietGoiForm(maGoiDuocChon))
+                {
+                    // Chờ người dùng đóng form chi tiết, nếu họ có thay đổi thì load lại bảng
+                    if (frm.ShowDialog() == DialogResult.OK)
+                    {
+                        TaiDuLieuLenLich(ngayDuocChon != DateTime.MinValue ? ngayDuocChon : DateTime.Now);
+                    }
                 }
             }
         }

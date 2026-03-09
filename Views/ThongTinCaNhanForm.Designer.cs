@@ -36,7 +36,6 @@
             this.btnDoiAnh = new Guna.UI2.WinForms.Guna2Button();
             this.btnXoaTaiKhoan = new Guna.UI2.WinForms.Guna2Button();
             this.btnLuu = new Guna.UI2.WinForms.Guna2Button();
-            this.btnDong = new Guna.UI2.WinForms.Guna2Button();
             this.SuspendLayout();
             // 
             // picAvatar
@@ -175,28 +174,12 @@
             this.btnLuu.Text = "Lưu Thông Tin";
             this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click_1);
             // 
-            // btnDong
-            // 
-            this.btnDong.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnDong.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnDong.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnDong.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnDong.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.btnDong.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnDong.ForeColor = System.Drawing.Color.White;
-            this.btnDong.Location = new System.Drawing.Point(701, 23);
-            this.btnDong.Name = "btnDong";
-            this.btnDong.Size = new System.Drawing.Size(69, 45);
-            this.btnDong.TabIndex = 10;
-            this.btnDong.Text = "Đóng";
-            this.btnDong.Click += new System.EventHandler(this.guna2Button1_Click);
-            // 
             // ThongTinCaNhanForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.btnDong);
             this.Controls.Add(this.btnLuu);
             this.Controls.Add(this.btnXoaTaiKhoan);
             this.Controls.Add(this.btnDoiAnh);
@@ -208,7 +191,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ThongTinCaNhanForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ThongTinCaNhanForm";
+            this.Text = "Thông tin cá nhân";
             this.Load += new System.EventHandler(this.ThongTinCaNhanForm_Load);
             this.ResumeLayout(false);
 
@@ -223,6 +206,5 @@
         private Guna.UI2.WinForms.Guna2Button btnDoiAnh;
         private Guna.UI2.WinForms.Guna2Button btnXoaTaiKhoan;
         private Guna.UI2.WinForms.Guna2Button btnLuu;
-        private Guna.UI2.WinForms.Guna2Button btnDong;
     }
 }

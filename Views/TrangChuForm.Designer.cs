@@ -39,6 +39,7 @@
             this.btnThemLich = new Guna.UI2.WinForms.Guna2Button();
             this.btnToggleBoLoc = new Guna.UI2.WinForms.Guna2Button();
             this.pnlDanhSachBoLoc = new Guna.UI2.WinForms.Guna2Panel();
+            this.chkLocKhac = new Guna.UI2.WinForms.Guna2CheckBox();
             this.chkLocTienIch = new Guna.UI2.WinForms.Guna2CheckBox();
             this.chkLocCongViec = new Guna.UI2.WinForms.Guna2CheckBox();
             this.chkLocHocTap = new Guna.UI2.WinForms.Guna2CheckBox();
@@ -48,7 +49,6 @@
             this.tlpLich = new System.Windows.Forms.TableLayoutPanel();
             this.btnThongKe = new Guna.UI2.WinForms.Guna2CircleButton();
             this.btnCaiDat = new Guna.UI2.WinForms.Guna2CircleButton();
-            this.chkLocKhac = new Guna.UI2.WinForms.Guna2CheckBox();
             this.pnlTop.SuspendLayout();
             this.menuTaiKhoan.SuspendLayout();
             this.pnlSidebar.SuspendLayout();
@@ -131,6 +131,7 @@
             this.menuSuaThongTin.Name = "menuSuaThongTin";
             this.menuSuaThongTin.Size = new System.Drawing.Size(222, 24);
             this.menuSuaThongTin.Text = "Sửa thông tin cá nhân";
+            this.menuSuaThongTin.Click += new System.EventHandler(this.menuSuaThongTin_Click);
             // 
             // menuDangXuat
             // 
@@ -154,6 +155,7 @@
             // 
             // btnThemLich
             // 
+            this.btnThemLich.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnThemLich.BackColor = System.Drawing.Color.Transparent;
             this.btnThemLich.BorderColor = System.Drawing.Color.Gray;
             this.btnThemLich.BorderRadius = 15;
@@ -205,6 +207,27 @@
             this.pnlDanhSachBoLoc.Name = "pnlDanhSachBoLoc";
             this.pnlDanhSachBoLoc.Size = new System.Drawing.Size(220, 161);
             this.pnlDanhSachBoLoc.TabIndex = 1;
+            // 
+            // chkLocKhac
+            // 
+            this.chkLocKhac.AutoSize = true;
+            this.chkLocKhac.BackColor = System.Drawing.Color.Transparent;
+            this.chkLocKhac.CheckedState.BorderColor = System.Drawing.Color.LightGray;
+            this.chkLocKhac.CheckedState.BorderRadius = 0;
+            this.chkLocKhac.CheckedState.BorderThickness = 0;
+            this.chkLocKhac.CheckedState.FillColor = System.Drawing.Color.Green;
+            this.chkLocKhac.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkLocKhac.ForeColor = System.Drawing.Color.Black;
+            this.chkLocKhac.Location = new System.Drawing.Point(34, 125);
+            this.chkLocKhac.Name = "chkLocKhac";
+            this.chkLocKhac.Size = new System.Drawing.Size(58, 21);
+            this.chkLocKhac.TabIndex = 6;
+            this.chkLocKhac.Text = "Khác";
+            this.chkLocKhac.UncheckedState.BorderColor = System.Drawing.Color.LimeGreen;
+            this.chkLocKhac.UncheckedState.BorderRadius = 0;
+            this.chkLocKhac.UncheckedState.BorderThickness = 0;
+            this.chkLocKhac.UncheckedState.FillColor = System.Drawing.Color.White;
+            this.chkLocKhac.UseVisualStyleBackColor = false;
             // 
             // chkLocTienIch
             // 
@@ -309,6 +332,7 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1042, 613);
             this.panel1.TabIndex = 2;
+            this.panel1.Resize += new System.EventHandler(this.panel1_Resize);
             // 
             // tlpLich
             // 
@@ -394,27 +418,6 @@
             this.btnCaiDat.Size = new System.Drawing.Size(40, 40);
             this.btnCaiDat.TabIndex = 2;
             this.btnCaiDat.Click += new System.EventHandler(this.btnCaiDat_Click);
-            // 
-            // chkLocKhac
-            // 
-            this.chkLocKhac.AutoSize = true;
-            this.chkLocKhac.BackColor = System.Drawing.Color.Transparent;
-            this.chkLocKhac.CheckedState.BorderColor = System.Drawing.Color.LightGray;
-            this.chkLocKhac.CheckedState.BorderRadius = 0;
-            this.chkLocKhac.CheckedState.BorderThickness = 0;
-            this.chkLocKhac.CheckedState.FillColor = System.Drawing.Color.Green;
-            this.chkLocKhac.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkLocKhac.ForeColor = System.Drawing.Color.Black;
-            this.chkLocKhac.Location = new System.Drawing.Point(34, 125);
-            this.chkLocKhac.Name = "chkLocKhac";
-            this.chkLocKhac.Size = new System.Drawing.Size(58, 21);
-            this.chkLocKhac.TabIndex = 6;
-            this.chkLocKhac.Text = "Khác";
-            this.chkLocKhac.UncheckedState.BorderColor = System.Drawing.Color.LimeGreen;
-            this.chkLocKhac.UncheckedState.BorderRadius = 0;
-            this.chkLocKhac.UncheckedState.BorderThickness = 0;
-            this.chkLocKhac.UncheckedState.FillColor = System.Drawing.Color.White;
-            this.chkLocKhac.UseVisualStyleBackColor = false;
             // 
             // TrangChuForm
             // 
