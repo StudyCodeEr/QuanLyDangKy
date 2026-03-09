@@ -252,6 +252,12 @@
     <Compile Include="Views\DangNhapForm.Designer.cs">
       <DependentUpon>DangNhapForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\ThongTinCaNhanForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ThongTinCaNhanForm.Designer.cs">
+      <DependentUpon>ThongTinCaNhanForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\TrangChuForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -272,6 +278,9 @@
     </Compile>
     <EmbeddedResource Include="Views\DangNhapForm.resx">
       <DependentUpon>DangNhapForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ThongTinCaNhanForm.resx">
+      <DependentUpon>ThongTinCaNhanForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\TrangChuForm.resx">
       <DependentUpon>TrangChuForm.cs</DependentUpon>

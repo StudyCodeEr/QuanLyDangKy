@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using QuanLyDangKy.Data;
@@ -138,7 +139,7 @@ namespace QuanLyDangKy.Views
         }
 
         // ==========================================
-        // 4. LOGIC ĐĂNG NHẬP VÀ UI TOPBAR
+        // 4. LOGIC ĐĂNG NHẬP VÀ UI TOPBAR (ĐÃ NÂNG CẤP AVATAR)
         // ==========================================
         private void CapNhatGiaoDienDangNhap()
         {
@@ -161,18 +162,40 @@ namespace QuanLyDangKy.Views
 
                 try
                 {
-                    // Dùng Application.StartupPath để lấy thư mục gốc đang chạy file .exe
-                    // Sau đó nối với thư mục "Icon" và tên file ảnh
+                    // 1. Lấy đường dẫn ảnh mặc định trước (phòng khi user chưa có ảnh)
                     string avatarPath = System.IO.Path.Combine(Application.StartupPath, "Icon", "avatar_default.png");
 
+                    // 2. Mở Database kiểm tra xem user này đã lưu ảnh nào chưa
+                    KetNoiDuLieu db = new KetNoiDuLieu();
+                    using (MySqlConnection conn = new MySqlConnection(db.LayChuoiKetNoi()))
+                    {
+                        string query = "SELECT AvatarPath FROM NguoiDung WHERE MaNguoiDung = @uid";
+                        using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@uid", PhienDangNhap.MaNguoiDungHienTai);
+                            conn.Open();
+                            object result = cmd.ExecuteScalar(); // Lấy đúng 1 ô dữ liệu
+
+                            // Nếu trong DB có đường dẫn ảnh, và ảnh đó thực sự tồn tại trong máy tính
+                            if (result != null && result != DBNull.Value)
+                            {
+                                string dbPath = result.ToString();
+                                if (System.IO.File.Exists(dbPath))
+                                {
+                                    avatarPath = dbPath; // Thay ảnh mặc định bằng ảnh của User
+                                }
+                            }
+                        }
+                    }
+
+                    // 3. Ốp ảnh lên nút Avatar ở góc phải trên cùng Trang chủ
                     btnMoDangNhap.Image = Image.FromFile(avatarPath);
                     btnMoDangNhap.ImageAlign = HorizontalAlignment.Center;
-                    btnMoDangNhap.ImageSize = new Size(45, 45);
+                    btnMoDangNhap.ImageSize = new Size(45, 45); // Ép ảnh vừa đúng với viền nút 45x45
                 }
                 catch (Exception ex)
                 {
-                    // Tạm thời in ra lỗi nếu không tìm thấy ảnh để dễ debug
-                    Console.WriteLine("Lỗi load Avatar: " + ex.Message);
+                    Console.WriteLine("Lỗi load Avatar ra trang chủ: " + ex.Message);
                 }
 
                 btnMoDangNhap.ContextMenuStrip = menuTaiKhoan;
@@ -182,6 +205,7 @@ namespace QuanLyDangKy.Views
                 ThayDoiMocThoiGian(DateTime.Now);
             }
         }
+
         // ==========================================
         // SIÊU HÀM: DỊCH CHUYỂN CỬA SỔ THỜI GIAN
         // ==========================================
@@ -197,6 +221,7 @@ namespace QuanLyDangKy.Views
             // 3. Cuộn thanh trượt ngang về đúng ngày bạn chọn
             CuonDenNgay(ngayDich);
         }
+
         private void btnMoDangNhap_Click(object sender, EventArgs e)
         {
             if (PhienDangNhap.MaNguoiDungHienTai == -1)
@@ -291,17 +316,6 @@ namespace QuanLyDangKy.Views
                 return;
             }
 
-            // Mở comment này ra khi bạn tạo xong ThemGoiForm nhé!
-            /*
-            using (ThemGoiForm frm = new ThemGoiForm())
-            {
-                if (frm.ShowDialog() == DialogResult.OK)
-                {
-                    TaiDuLieuLenLich();
-                    CuonDenNgay(DateTime.Now);
-                }
-            }
-            */
             MessageBox.Show("Sẵn sàng liên kết với ThemGoiForm!");
         }
 
@@ -373,6 +387,36 @@ namespace QuanLyDangKy.Views
                 }
             }
             catch (Exception ex) { MessageBox.Show("Lỗi tải lịch: " + ex.Message); }
+        }
+
+        // ==========================================
+        // 7. GỌI FORM SỬA THÔNG TIN CÁ NHÂN
+        // ==========================================
+        private void menuSuaThongTin_Click(object sender, EventArgs e)
+        {
+            // 1. Kiểm tra nếu chưa đăng nhập thì báo lỗi và không cho mở
+            if (PhienDangNhap.MaNguoiDungHienTai == -1)
+            {
+                MessageBox.Show("Bạn cần đăng nhập để xem thông tin!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 2. Mở cửa sổ Thông tin cá nhân
+            using (ThongTinCaNhanForm frm = new ThongTinCaNhanForm())
+            {
+                DialogResult ketQua = frm.ShowDialog();
+
+                // 3. Nếu người dùng bấm "Lưu" (trả về OK), load lại giao diện để cập nhật Avatar mới
+                if (ketQua == DialogResult.OK)
+                {
+                    CapNhatGiaoDienDangNhap();
+                }
+                // 4. Nếu người dùng bấm "Xóa tài khoản" (trả về Abort), ép đăng xuất ngay
+                else if (ketQua == DialogResult.Abort)
+                {
+                    menuDangXuat_Click(null, null);
+                }
+            }
         }
     }
 }

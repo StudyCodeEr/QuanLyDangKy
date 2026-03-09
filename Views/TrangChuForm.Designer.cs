@@ -38,6 +38,7 @@
             this.menuSuaThongTin = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDangXuat = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlSidebar = new Guna.UI2.WinForms.Guna2Panel();
+            this.btnThemLich = new Guna.UI2.WinForms.Guna2Button();
             this.btnToggleBoLoc = new Guna.UI2.WinForms.Guna2Button();
             this.pnlDanhSachBoLoc = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2CheckBox4 = new Guna.UI2.WinForms.Guna2CheckBox();
@@ -47,7 +48,6 @@
             this.calMini = new System.Windows.Forms.MonthCalendar();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tlpLich = new System.Windows.Forms.TableLayoutPanel();
-            this.btnThemLich = new Guna.UI2.WinForms.Guna2Button();
             this.pnlTop.SuspendLayout();
             this.menuTaiKhoan.SuspendLayout();
             this.pnlSidebar.SuspendLayout();
@@ -166,6 +166,7 @@
             this.menuTaiKhoan.RenderStyle.SeparatorColor = System.Drawing.Color.Gainsboro;
             this.menuTaiKhoan.RenderStyle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
             this.menuTaiKhoan.Size = new System.Drawing.Size(223, 52);
+            this.menuTaiKhoan.Click += new System.EventHandler(this.menuSuaThongTin_Click);
             // 
             // menuSuaThongTin
             // 
@@ -192,6 +193,28 @@
             this.pnlSidebar.Name = "pnlSidebar";
             this.pnlSidebar.Size = new System.Drawing.Size(220, 613);
             this.pnlSidebar.TabIndex = 1;
+            // 
+            // btnThemLich
+            // 
+            this.btnThemLich.BackColor = System.Drawing.Color.Transparent;
+            this.btnThemLich.BorderColor = System.Drawing.Color.Gray;
+            this.btnThemLich.BorderRadius = 15;
+            this.btnThemLich.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnThemLich.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnThemLich.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnThemLich.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnThemLich.FillColor = System.Drawing.Color.White;
+            this.btnThemLich.Font = new System.Drawing.Font("Segoe UI Variable Display", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnThemLich.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnThemLich.Location = new System.Drawing.Point(18, 517);
+            this.btnThemLich.Name = "btnThemLich";
+            this.btnThemLich.ShadowDecoration.BorderRadius = 15;
+            this.btnThemLich.ShadowDecoration.Enabled = true;
+            this.btnThemLich.ShadowDecoration.Shadow = new System.Windows.Forms.Padding(-3, 0, 3, 5);
+            this.btnThemLich.Size = new System.Drawing.Size(180, 54);
+            this.btnThemLich.TabIndex = 3;
+            this.btnThemLich.Text = "Thêm Lịch";
+            this.btnThemLich.Click += new System.EventHandler(this.btnThemLich_Click);
             // 
             // btnToggleBoLoc
             // 
@@ -370,28 +393,6 @@
             this.tlpLich.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tlpLich.Size = new System.Drawing.Size(1021, 1200);
             this.tlpLich.TabIndex = 0;
-            // 
-            // btnThemLich
-            // 
-            this.btnThemLich.BackColor = System.Drawing.Color.Transparent;
-            this.btnThemLich.BorderColor = System.Drawing.Color.Gray;
-            this.btnThemLich.BorderRadius = 15;
-            this.btnThemLich.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnThemLich.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnThemLich.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnThemLich.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnThemLich.FillColor = System.Drawing.Color.White;
-            this.btnThemLich.Font = new System.Drawing.Font("Segoe UI Variable Display", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThemLich.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnThemLich.Location = new System.Drawing.Point(18, 517);
-            this.btnThemLich.Name = "btnThemLich";
-            this.btnThemLich.ShadowDecoration.BorderRadius = 15;
-            this.btnThemLich.ShadowDecoration.Enabled = true;
-            this.btnThemLich.ShadowDecoration.Shadow = new System.Windows.Forms.Padding(-3, 0, 3, 5);
-            this.btnThemLich.Size = new System.Drawing.Size(180, 54);
-            this.btnThemLich.TabIndex = 3;
-            this.btnThemLich.Text = "Thêm Lịch";
-            this.btnThemLich.Click += new System.EventHandler(this.btnThemLich_Click);
             // 
             // TrangChuForm
             // 
