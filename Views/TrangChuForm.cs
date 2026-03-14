@@ -159,7 +159,6 @@ namespace QuanLyDangKy.Views
                     KetNoiDuLieu db = new KetNoiDuLieu();
                     using (MySqlConnection conn = new MySqlConnection(db.LayChuoiKetNoi()))
                     {
-                        // === ĐÃ SỬA: Bổ sung "MaGoi" vào SELECT ===
                         string query = "SELECT MaGoi, TenDichVu, TheLoai, NgayGiaHan, TrangThaiHoatDong, MauSac FROM GoiDangKy WHERE MaNguoiDung = @uid ORDER BY NgayGiaHan ASC";
                         using (MySqlCommand cmd = new MySqlCommand(query, conn))
                         {
@@ -171,7 +170,6 @@ namespace QuanLyDangKy.Views
 
                                 while (reader.Read())
                                 {
-                                    // === ĐÃ SỬA: Đọc "MaGoi" từ Database ===
                                     int maGoi = reader.GetInt32("MaGoi");
                                     string ten = reader.GetString("TenDichVu");
                                     string loai = reader.GetString("TheLoai");
@@ -198,10 +196,8 @@ namespace QuanLyDangKy.Views
                                             Guna.UI2.WinForms.Guna2Button btnGoi = new Guna.UI2.WinForms.Guna2Button();
                                             btnGoi.Text = ten;
 
-                                            // === ĐÃ SỬA: Gắn sự kiện và ID cho nút ===
                                             btnGoi.Tag = maGoi;
                                             btnGoi.Click += btnGoi_Click;
-                                            // =========================================
 
                                             btnGoi.Dock = DockStyle.Fill;
                                             btnGoi.BorderRadius = 5;
@@ -252,7 +248,7 @@ namespace QuanLyDangKy.Views
         }
 
         // ==========================================
-        // LOGIC ĐĂNG NHẬP & SỰ KIỆN NÚT BẤM (GIỮ NGUYÊN)
+        // LOGIC ĐĂNG NHẬP & SỰ KIỆN NÚT BẤM
         // ==========================================
         private void CapNhatGiaoDienDangNhap()
         {
@@ -270,18 +266,51 @@ namespace QuanLyDangKy.Views
                 btnMoDangNhap.BorderRadius = 22;
                 btnMoDangNhap.Text = "";
 
+                // === ĐÃ SỬA: ĐỌC AVATAR TỪ DATABASE CHỐNG LỖI KHÓA FILE ===
                 try
                 {
-                    string avatarPath = System.IO.Path.Combine(Application.StartupPath, "Icon", "avatar_default.png");
-                    btnMoDangNhap.Image = Image.FromFile(avatarPath);
+                    string tenAvatar = "";
+                    KetNoiDuLieu db = new KetNoiDuLieu();
+                    using (MySqlConnection conn = new MySqlConnection(db.LayChuoiKetNoi()))
+                    {
+                        string qA = "SELECT Avatar FROM nguoidung WHERE MaNguoiDung = @uid";
+                        using (MySqlCommand cmdA = new MySqlCommand(qA, conn))
+                        {
+                            cmdA.Parameters.AddWithValue("@uid", PhienDangNhap.MaNguoiDungHienTai);
+                            conn.Open();
+                            var kq = cmdA.ExecuteScalar();
+                            if (kq != null && kq != DBNull.Value) tenAvatar = kq.ToString();
+                        }
+                    }
+
+                    string duongDanAnh = System.IO.Path.Combine(Application.StartupPath, "Icon", "avatar_default.png");
+                    if (!string.IsNullOrEmpty(tenAvatar))
+                    {
+                        string duongDanCustom = System.IO.Path.Combine(Application.StartupPath, "Avatars", tenAvatar);
+                        if (System.IO.File.Exists(duongDanCustom)) duongDanAnh = duongDanCustom;
+                    }
+
+                    // Đọc ảnh an toàn bằng FileStream + Bitmap Clone
+                    using (System.IO.FileStream fs = new System.IO.FileStream(duongDanAnh, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+                    {
+                        using (Image tempImg = Image.FromStream(fs))
+                        {
+                            btnMoDangNhap.Image = new Bitmap(tempImg);
+                        }
+                    }
                     btnMoDangNhap.ImageAlign = HorizontalAlignment.Center;
                     btnMoDangNhap.ImageSize = new Size(45, 45);
                 }
                 catch { }
+                // ==========================================================
+
                 btnMoDangNhap.ContextMenuStrip = menuTaiKhoan;
             }
 
             TaiDuLieuLenLich(DateTime.Now);
+
+            // GỌI HÀM CẢNH BÁO Ở ĐÂY
+            KiemTraThongBaoGiaHan();
         }
 
         private void btnMoDangNhap_Click(object sender, EventArgs e)
@@ -343,10 +372,9 @@ namespace QuanLyDangKy.Views
                 pnlSidebar.Visible = true;
 
                 // 2. KHẮC PHỤC LỖI SIDEBAR CHE TOPBAR (Sắp xếp lại Z-Order)
-                // Trong WinForms, SendToBack() giúp Control lấy không gian Docking ĐẦU TIÊN
-                pnlTop.SendToBack();       // TopBar chiếm toàn bộ chiều ngang trên cùng trước
-                pnlSidebar.BringToFront(); // Sau đó Sidebar mới được chiếm lề trái
-                panel1.BringToFront();     // Cuối cùng Lịch lấp đầy phần còn lại
+                pnlTop.SendToBack();
+                pnlSidebar.BringToFront();
+                panel1.BringToFront();
 
                 // 3. KHẮC PHỤC LỖI TỤT DÒNG NGÀY: Vẽ lại lịch để TableLayoutPanel tính lại phần trăm
                 TaiDuLieuLenLich(ngayDuocChon != DateTime.MinValue ? ngayDuocChon : DateTime.Now);
@@ -429,7 +457,7 @@ namespace QuanLyDangKy.Views
         }
 
         // ==========================================
-        // === ĐÃ SỬA: HÀM SỰ KIỆN KHI CLICK VÀO GÓI ===
+        // HÀM SỰ KIỆN KHI CLICK VÀO GÓI
         // ==========================================
         private void btnGoi_Click(object sender, EventArgs e)
         {
@@ -447,6 +475,68 @@ namespace QuanLyDangKy.Views
                     }
                 }
             }
+        }
+
+        // ==========================================
+        // HỆ THỐNG CẢNH BÁO SẮP ĐẾN HẠN THANH TOÁN
+        // ==========================================
+        private void KiemTraThongBaoGiaHan()
+        {
+            if (PhienDangNhap.MaNguoiDungHienTai == -1) return;
+
+            try
+            {
+                KetNoiDuLieu db = new KetNoiDuLieu();
+                using (MySqlConnection conn = new MySqlConnection(db.LayChuoiKetNoi()))
+                {
+                    // Quét các gói đang hoạt động và có ngày gia hạn chênh lệch từ 0 đến 3 ngày so với hôm nay
+                    string query = @"SELECT TenDichVu, NgayGiaHan, GiaGoc, DonViTienTe 
+                                     FROM GoiDangKy 
+                                     WHERE MaNguoiDung = @uid 
+                                     AND TrangThaiHoatDong = 1 
+                                     AND DATEDIFF(NgayGiaHan, CURDATE()) >= 0 
+                                     AND DATEDIFF(NgayGiaHan, CURDATE()) <= 3
+                                     ORDER BY NgayGiaHan ASC";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@uid", PhienDangNhap.MaNguoiDungHienTai);
+                        conn.Open();
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            List<string> danhSachThongBao = new List<string>();
+                            int soGoiSapHan = 0;
+
+                            while (reader.Read())
+                            {
+                                string ten = reader.GetString("TenDichVu");
+                                DateTime ngayGiaHan = reader.GetDateTime("NgayGiaHan");
+                                decimal gia = reader.GetDecimal("GiaGoc");
+                                string tienTe = reader.GetString("DonViTienTe");
+
+                                // Tính chính xác số ngày còn lại
+                                int soNgayConLai = (int)(ngayGiaHan.Date - DateTime.Now.Date).TotalDays;
+
+                                string textNgay = soNgayConLai == 0 ? "⚠️ HÔM NAY" : $"Còn {soNgayConLai} ngày";
+
+                                danhSachThongBao.Add($"- {ten}: {gia:N0} {tienTe} ({textNgay})");
+                                soGoiSapHan++;
+                            }
+
+                            // Nếu có gói sắp hết hạn, gom lại bật 1 thông báo duy nhất
+                            if (soGoiSapHan > 0)
+                            {
+                                string thongBao = $"Bạn có {soGoiSapHan} dịch vụ sắp đến hạn thanh toán:\n\n" +
+                                                  string.Join("\n", danhSachThongBao) +
+                                                  "\n\nHãy chuẩn bị sẵn tiền trong thẻ nhé!";
+
+                                MessageBox.Show(thongBao, "⏰ Nhắc nhở thanh toán", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                        }
+                    }
+                }
+            }
+            catch { /* Lỗi ngầm (ví dụ mất mạng) thì bỏ qua, không làm phiền trải nghiệm mở app */ }
         }
     }
 }

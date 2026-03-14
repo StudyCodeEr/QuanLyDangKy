@@ -1,14 +1,15 @@
-﻿using System;
-using System.Data;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Net.Http;
-using System.Text;
-using Newtonsoft.Json.Linq;
-using DotNetEnv;
+﻿using DotNetEnv;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json.Linq;
 using QuanLyDangKy.Data;
 using QuanLyDangKy.Models;
+using System;
+using System.Data;
+using System.Drawing;
+using System.Net.Http;
+using System.Text;
+using System.Web.UI.WebControls;
+using System.Windows.Forms;
 
 namespace QuanLyDangKy.Views
 {
@@ -75,6 +76,9 @@ namespace QuanLyDangKy.Views
         // ===============================================
         // AI XỬ LÝ NGÔN NGỮ TỰ NHIÊN (GROQ API)
         // ===============================================
+        // ===============================================
+        // AI XỬ LÝ NGÔN NGỮ TỰ NHIÊN (GROQ API)
+        // ===============================================
         private async void btnPhanTich_Click(object sender, EventArgs e)
         {
             string prompt = txtNhapNhanh.Text.Trim();
@@ -137,14 +141,24 @@ namespace QuanLyDangKy.Views
                     string jsonBody = Newtonsoft.Json.JsonConvert.SerializeObject(requestBody);
                     var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
 
-                    HttpResponseMessage response = await client.PostAsync("[https://api.groq.com/openai/v1/chat/completions](https://api.groq.com/openai/v1/chat/completions)", content);
+                    // TÌNH HUỐNG LỊCH SỬ: Cắt nhỏ URL bằng dấu '+' để chống các trình duyệt chat nhúng ký tự ẩn
+                    string phan1 = "https";
+                    string phan2 = "://api.groq.com";
+                    string phan3 = "/openai/v1/chat/completions";
+                    string apiUrl = phan1 + phan2 + phan3;
+
+                    // Gọi API với URL đã hoàn toàn sạch sẽ
+                    HttpResponseMessage response = await client.PostAsync(apiUrl, content);
                     string resultString = await response.Content.ReadAsStringAsync();
 
-                    if (!response.IsSuccessStatusCode) throw new Exception("Lỗi API");
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        throw new Exception($"Lỗi API: {response.StatusCode} - {resultString}");
+                    }
 
                     JObject aiJson = JObject.Parse(JObject.Parse(resultString)["choices"][0]["message"]["content"].ToString());
 
-                    // Đổ dữ liệu
+                    // Đổ dữ liệu lên UI
                     txtTenDichVu.Text = aiJson["TenDichVu"]?.ToString();
                     txtGiaTien.Text = aiJson["GiaGoc"]?.ToString();
 

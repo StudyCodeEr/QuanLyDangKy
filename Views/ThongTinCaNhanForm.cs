@@ -1,27 +1,65 @@
 ﻿using System;
 using System.Data;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
+using System.IO;
 using MySql.Data.MySqlClient;
 using QuanLyDangKy.Data;
 using QuanLyDangKy.Models;
+using System.Drawing.Drawing2D; // Thư viện để vẽ đồ họa hình tròn
+using System.Drawing.Imaging;
 
 namespace QuanLyDangKy.Views
 {
     public partial class ThongTinCaNhanForm : Form
     {
-        // Biến lưu đường dẫn file ảnh
-        private string duongDanAnhHienTai = "";
+        private string duongDanAnhMoi = "";
+        private string tenFileAvatarHienTai = "";
 
         public ThongTinCaNhanForm()
         {
             InitializeComponent();
         }
 
-        // ==========================================
-        // 1. KHI FORM VỪA MỞ LÊN -> TẢI DỮ LIỆU CŨ VÀO Ô
-        // ==========================================
+        // ===============================================
+        // THUẬT TOÁN ÉP ẢNH THÀNH HÌNH TRÒN
+        // ===============================================
+        private Image TaoAnhTron(Image anhGoc)
+        {
+            // Lấy cạnh ngắn nhất để tạo hình vuông
+            int minSize = Math.Min(anhGoc.Width, anhGoc.Height);
+
+            // Tính tọa độ để cắt chính giữa ảnh
+            int x = (anhGoc.Width - minSize) / 2;
+            int y = (anhGoc.Height - minSize) / 2;
+
+            // Tạo Bitmap mới hình vuông, nền trong suốt
+            Bitmap anhTron = new Bitmap(minSize, minSize);
+            anhTron.MakeTransparent();
+
+            using (Graphics g = Graphics.FromImage(anhTron))
+            {
+                // Bật chế độ khử răng cưa để viền tròn được mượt
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                // Dùng TextureBrush để "sơn" ảnh gốc vào hình tròn
+                using (TextureBrush brush = new TextureBrush(anhGoc))
+                {
+                    // Dịch chuyển chổi quét đến giữa ảnh gốc
+                    brush.TranslateTransform(-x, -y);
+
+                    // Vẽ một hình tròn lấp đầy bằng brush
+                    g.FillEllipse(brush, 0, 0, minSize, minSize);
+                }
+            }
+            return anhTron;
+        }
+
+        // ===============================================
+        // 1. TẢI DỮ LIỆU KHI MỞ FORM
+        // ===============================================
         private void ThongTinCaNhanForm_Load(object sender, EventArgs e)
         {
             try
@@ -29,8 +67,7 @@ namespace QuanLyDangKy.Views
                 KetNoiDuLieu db = new KetNoiDuLieu();
                 using (MySqlConnection conn = new MySqlConnection(db.LayChuoiKetNoi()))
                 {
-                    // Đã bổ sung thêm cột NamSinh vào câu lệnh SQL
-                    string query = "SELECT HoTen, NamSinh, SoDienThoai, Email, AvatarPath FROM NguoiDung WHERE MaNguoiDung = @uid";
+                    string query = "SELECT TenDangNhap, Avatar FROM nguoidung WHERE MaNguoiDung = @uid";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@uid", PhienDangNhap.MaNguoiDungHienTai);
@@ -39,146 +76,215 @@ namespace QuanLyDangKy.Views
                         {
                             if (reader.Read())
                             {
-                                txtHoTen.Text = reader["HoTen"].ToString();
-                                txtNamSinh.Text = reader["NamSinh"].ToString();
-                                txtSoDienThoai.Text = reader["SoDienThoai"].ToString();
-                                txtEmail.Text = reader["Email"].ToString();
+                                txtTenDangNhap.Text = reader.GetString("TenDangNhap");
 
-                                duongDanAnhHienTai = reader["AvatarPath"].ToString();
-
-                                // Nếu có ảnh trong DB và file ảnh thực sự tồn tại trên máy tính
-                                if (!string.IsNullOrEmpty(duongDanAnhHienTai) && File.Exists(duongDanAnhHienTai))
-                                {
-                                    // Chèn ảnh vào nút Guna2CircleButton
-                                    picAvatar.Image = Image.FromFile(duongDanAnhHienTai);
-                                    // BẮT BUỘC: Ép ảnh giãn ra bằng đúng kích thước của cái nút tròn
-                                    picAvatar.ImageSize = new Size(picAvatar.Width, picAvatar.Height);
-                                }
+                                tenFileAvatarHienTai = reader.IsDBNull(reader.GetOrdinal("Avatar")) ? "" : reader.GetString("Avatar");
+                                LoadAnhAvatar(tenFileAvatarHienTai);
                             }
                         }
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) { MessageBox.Show("Lỗi tải thông tin: " + ex.Message); }
+        }
+
+        // Đọc ảnh an toàn và ÉP LUÔN THÀNH TRÒN 
+        // Đọc ảnh an toàn tuyệt đối bằng MemoryStream
+        private void LoadAnhAvatar(string tenFile)
+        {
+            string thuMucAvatar = Path.Combine(Application.StartupPath, "Avatars");
+            string duongDanDayDu = Path.Combine(thuMucAvatar, tenFile);
+
+            try
             {
-                MessageBox.Show("Chưa có dữ liệu cũ hoặc lỗi tải: " + ex.Message, "Thông báo");
+                if (!string.IsNullOrEmpty(tenFile) && File.Exists(duongDanDayDu))
+                {
+                    // Đọc file thành mảng byte rồi ném vào RAM
+                    byte[] imageBytes = File.ReadAllBytes(duongDanDayDu);
+                    using (MemoryStream ms = new MemoryStream(imageBytes))
+                    {
+                        using (Image tempImg = Image.FromStream(ms))
+                        {
+                            picAvatar.Image = TaoAnhTron(tempImg);
+                        }
+                    }
+                }
+                else
+                {
+                    string defaultPath = Path.Combine(Application.StartupPath, "Icon", "avatar_default.png");
+                    if (File.Exists(defaultPath))
+                    {
+                        byte[] imageBytes = File.ReadAllBytes(defaultPath);
+                        using (MemoryStream ms = new MemoryStream(imageBytes))
+                        {
+                            using (Image tempImg = Image.FromStream(ms))
+                            {
+                                picAvatar.Image = TaoAnhTron(tempImg);
+                            }
+                        }
+                    }
+                }
+            }
+            catch { /* Lỗi thì bỏ qua, để khung trống */ }
+        }
+
+        // ===============================================
+        // 2. CHỌN ẢNH TỪ MÁY TÍNH
+        // ===============================================
+        private void btnChonAnh_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Title = "Chọn ảnh đại diện";
+                ofd.Filter = "Image Files (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
+
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        duongDanAnhMoi = ofd.FileName;
+
+                        // Đọc file vừa chọn thành mảng byte
+                        byte[] imageBytes = File.ReadAllBytes(duongDanAnhMoi);
+                        using (MemoryStream ms = new MemoryStream(imageBytes))
+                        {
+                            using (Image tempImg = Image.FromStream(ms))
+                            {
+                                picAvatar.Image = TaoAnhTron(tempImg);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("File ảnh bị lỗi hoặc không đúng định dạng: " + ex.Message, "Lỗi đọc ảnh", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
         }
 
-        // ==========================================
-        // 2. CÁC HÀM SỰ KIỆN NÚT BẤM
-        // ==========================================
-
-        private void btnDoiAnh_Click(object sender, EventArgs e)
-        {
-            ThucHienDoiAnh(); // Gọi khối lệnh đổi ảnh
-        }
-
-        private void btnDoiAnh_Click_1(object sender, EventArgs e)
-        {
-            ThucHienDoiAnh(); // Cho dù giao diện gọi hàm này thì vẫn chạy đổi ảnh bình thường!
-        }
-
+        // ===============================================
+        // 3. XỬ LÝ LƯU (ĐỔI TÊN, MK, LƯU ẢNH TRÒN)
+        // ===============================================
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            ThucHienLuuThongTin();
+            string tenMoi = txtTenDangNhap.Text.Trim();
+            string mkCu = txtMatKhauCu.Text;
+            string mkMoi = txtMatKhauMoi.Text;
+            string mkXacNhan = txtXacNhanMatKhau.Text;
+
+            if (string.IsNullOrEmpty(tenMoi))
+            {
+                MessageBox.Show("Tên đăng nhập không được để trống!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                KetNoiDuLieu db = new KetNoiDuLieu();
+                using (MySqlConnection conn = new MySqlConnection(db.LayChuoiKetNoi()))
+                {
+                    conn.Open();
+                    string matKhauUpdate = "";
+
+                    // Nếu muốn đổi mật khẩu
+                    if (!string.IsNullOrEmpty(mkMoi) || !string.IsNullOrEmpty(mkCu))
+                    {
+                        if (mkMoi != mkXacNhan)
+                        {
+                            MessageBox.Show("Mật khẩu xác nhận không khớp!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+
+                        // Check MK cũ
+                        string qCheck = "SELECT MatKhau FROM nguoidung WHERE MaNguoiDung = @uid";
+                        using (MySqlCommand cmdCheck = new MySqlCommand(qCheck, conn))
+                        {
+                            cmdCheck.Parameters.AddWithValue("@uid", PhienDangNhap.MaNguoiDungHienTai);
+                            string mkThucTe = cmdCheck.ExecuteScalar()?.ToString();
+
+                            if (mkCu != mkThucTe)
+                            {
+                                MessageBox.Show("Mật khẩu hiện tại không chính xác!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                        }
+                        matKhauUpdate = mkMoi;
+                    }
+
+                    // XỬ LÝ LƯU ẢNH ĐÃ CẮT TRÒN (Save PNG)
+                    string tenFileLuuDB = tenFileAvatarHienTai;
+                    if (!string.IsNullOrEmpty(duongDanAnhMoi) && picAvatar.Image != null)
+                    {
+                        string thuMucAvatar = Path.Combine(Application.StartupPath, "Avatars");
+                        if (!Directory.Exists(thuMucAvatar)) Directory.CreateDirectory(thuMucAvatar);
+
+                        // Bắt buộc lưu đuôi .png để giữ nền trong suốt của 4 góc bị cắt
+                        tenFileLuuDB = $"user_{PhienDangNhap.MaNguoiDungHienTai}_{DateTime.Now.Ticks}.png";
+                        string duongDanDich = Path.Combine(thuMucAvatar, tenFileLuuDB);
+
+                        // Lưu ảnh tròn thay vì copy ảnh chữ nhật cũ
+                        picAvatar.Image.Save(duongDanDich, ImageFormat.Png);
+                    }
+
+                    // Cập nhật DB
+                    string qUpdate = "UPDATE nguoidung SET TenDangNhap = @ten, Avatar = @avatar";
+                    if (!string.IsNullOrEmpty(matKhauUpdate)) qUpdate += ", MatKhau = @mk";
+                    qUpdate += " WHERE MaNguoiDung = @uid";
+
+                    using (MySqlCommand cmdUp = new MySqlCommand(qUpdate, conn))
+                    {
+                        cmdUp.Parameters.AddWithValue("@ten", tenMoi);
+                        cmdUp.Parameters.AddWithValue("@avatar", tenFileLuuDB);
+                        cmdUp.Parameters.AddWithValue("@uid", PhienDangNhap.MaNguoiDungHienTai);
+                        if (!string.IsNullOrEmpty(matKhauUpdate)) cmdUp.Parameters.AddWithValue("@mk", matKhauUpdate);
+
+                        cmdUp.ExecuteNonQuery();
+                    }
+
+                    PhienDangNhap.TenDangNhapHienTai = tenMoi;
+                    MessageBox.Show("Cập nhật thông tin thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+            }
+            catch (Exception ex) { MessageBox.Show("Lỗi cập nhật: " + ex.Message); }
         }
 
-        private void btnLuu_Click_1(object sender, EventArgs e)
-        {
-            ThucHienLuuThongTin(); // Cho dù giao diện gọi hàm này thì vẫn lưu bình thường!
-        }
-
-        private void guna2Button1_Click(object sender, EventArgs e)
-        {
-            this.Close(); // Đây chính là nút Đóng của bạn
-        }
-
+        // ===============================================
+        // 4. XÓA TÀI KHOẢN
+        // ===============================================
         private void btnXoaTaiKhoan_Click(object sender, EventArgs e)
         {
-            DialogResult hoiNguoiDung = MessageBox.Show("Bạn có chắc chắn muốn xóa tài khoản? Hành động này không thể hoàn tác.", "Cảnh báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            DialogResult xacNhan = MessageBox.Show(
+                "Bạn có chắc chắn muốn xóa VĨNH VIỄN tài khoản này?\nToàn bộ dữ liệu gói cước, lịch sử sẽ bị xóa sạch!",
+                "CẢNH BÁO ĐỎ", MessageBoxButtons.YesNo, MessageBoxIcon.Stop);
 
-            if (hoiNguoiDung == DialogResult.Yes)
+            if (xacNhan == DialogResult.Yes)
             {
                 try
                 {
                     KetNoiDuLieu db = new KetNoiDuLieu();
                     using (MySqlConnection conn = new MySqlConnection(db.LayChuoiKetNoi()))
                     {
-                        string query = "DELETE FROM NguoiDung WHERE MaNguoiDung = @uid";
-                        using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                        conn.Open();
+                        string qXoa = @"
+                            DELETE FROM lichsuhoatdong WHERE MaNguoiDung = @uid;
+                            DELETE FROM goimau WHERE MaNguoiDung = @uid;
+                            DELETE FROM nguoidung WHERE MaNguoiDung = @uid;";
+
+                        using (MySqlCommand cmd = new MySqlCommand(qXoa, conn))
                         {
                             cmd.Parameters.AddWithValue("@uid", PhienDangNhap.MaNguoiDungHienTai);
-                            conn.Open();
                             cmd.ExecuteNonQuery();
-
-                            MessageBox.Show("Đã xóa tài khoản.", "Thông báo");
-                            this.DialogResult = DialogResult.Abort; // Báo hiệu đã xóa
-                            this.Close();
                         }
                     }
+                    MessageBox.Show("Đã xóa tài khoản. Tạm biệt!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    this.DialogResult = DialogResult.Abort;
+                    this.Close();
                 }
-                catch (Exception ex) { MessageBox.Show("Lỗi xóa: " + ex.Message); }
-            }
-        }
-
-        // ==========================================
-        // 3. KHỐI LỆNH XỬ LÝ CHÍNH
-        // ==========================================
-        private void ThucHienDoiAnh()
-        {
-            try
-            {
-                using (OpenFileDialog ofd = new OpenFileDialog())
-                {
-                    ofd.Filter = "Image Files(*.jpg; *.jpeg; *.png)|*.jpg; *.jpeg; *.png";
-                    ofd.Title = "Chọn ảnh đại diện của bạn";
-
-                    if (ofd.ShowDialog() == DialogResult.OK)
-                    {
-                        duongDanAnhHienTai = ofd.FileName;
-                        picAvatar.Image = Image.FromFile(duongDanAnhHienTai);
-
-                        // BẮT BUỘC: Ép ảnh giãn ra bằng đúng kích thước của cái nút tròn
-                        picAvatar.ImageSize = new Size(picAvatar.Width, picAvatar.Height);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi tải ảnh lên: " + ex.Message, "Lỗi");
-            }
-        }
-
-        private void ThucHienLuuThongTin()
-        {
-            try
-            {
-                KetNoiDuLieu db = new KetNoiDuLieu();
-                using (MySqlConnection conn = new MySqlConnection(db.LayChuoiKetNoi()))
-                {
-                    string query = "UPDATE NguoiDung SET HoTen = @hoten, NamSinh = @namsinh, SoDienThoai = @sdt, Email = @email, AvatarPath = @avatar WHERE MaNguoiDung = @uid";
-                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@hoten", txtHoTen.Text.Trim());
-                        cmd.Parameters.AddWithValue("@namsinh", txtNamSinh.Text.Trim());
-                        cmd.Parameters.AddWithValue("@sdt", txtSoDienThoai.Text.Trim());
-                        cmd.Parameters.AddWithValue("@email", txtEmail.Text.Trim());
-                        cmd.Parameters.AddWithValue("@avatar", duongDanAnhHienTai);
-                        cmd.Parameters.AddWithValue("@uid", PhienDangNhap.MaNguoiDungHienTai);
-
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
-
-                        MessageBox.Show("Cập nhật thông tin thành công!", "Tuyệt vời", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        this.DialogResult = DialogResult.OK; // Báo hiệu lưu thành công
-                        this.Close(); // Lưu xong tự đóng Form
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi lưu dữ liệu: " + ex.Message, "Lỗi Database");
+                catch (Exception ex) { MessageBox.Show("Lỗi xóa tài khoản: " + ex.Message); }
             }
         }
     }
