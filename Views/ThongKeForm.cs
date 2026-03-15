@@ -27,11 +27,22 @@ namespace QuanLyDangKy.Views
 
         private void ThongKeForm_Load(object sender, EventArgs e)
         {
-            // Tải lịch sử ngay lập tức vì không phụ thuộc vào API
             LoadLichSu();
+            TaiTyGiaRealTime(); // Tải API trước để có dữ liệu tỷ giá
 
-            // Gọi hàm tải API Tỷ giá chạy ngầm
-            TaiTyGiaRealTime();
+            // === ĐÃ SỬA: ĐỂ SỰ KIỆN TỰ NHIÊN KÍCH HOẠT VẼ BIỂU ĐỒ ===
+            if (cmbTienTeThongKe.Items.Contains(PhienDangNhap.TienTeMacDinh))
+            {
+                // Thay vì chặn sự kiện, ta cứ gán thẳng để nó tự động gọi hàm tính toán và vẽ biểu đồ
+                cmbTienTeThongKe.SelectedItem = PhienDangNhap.TienTeMacDinh;
+            }
+            else if (cmbTienTeThongKe.Items.Count > 0)
+            {
+                cmbTienTeThongKe.SelectedIndex = 0; // Đề phòng lỗi thiếu dữ liệu
+            }
+
+            // Áp dụng Dark Mode cho toàn Form
+            ThemeManager.ApDungGiaoDien(this, PhienDangNhap.CheDoToi);
         }
 
         // ===============================================

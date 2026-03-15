@@ -58,6 +58,7 @@ namespace QuanLyDangKy.Views
             CapNhatGiaoDienDangNhap();
             lblHomNay.Text = "Hôm nay: " + DateTime.Now.ToString("dd/MM/yyyy");
             btnThemLich.BringToFront();
+            ThemeManager.ApDungGiaoDien(this, PhienDangNhap.CheDoToi);
         }
 
         // ==========================================
@@ -410,7 +411,16 @@ namespace QuanLyDangKy.Views
                 MessageBox.Show("Vui lòng đăng nhập để truy cập Cài đặt hệ thống!", "Khóa truy cập", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            MessageBox.Show("Chức năng Cài đặt đang được phát triển.", "Cài đặt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            // Gọi Form Cài đặt
+            using (CaiDatForm frm = new CaiDatForm())
+            {
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    // Nếu người dùng vừa Reset dữ liệu hoặc đổi Setting, vẽ lại bảng lịch
+                    TaiDuLieuLenLich(ngayDuocChon != DateTime.MinValue ? ngayDuocChon : DateTime.Now);
+                }
+            }
         }
 
         private void btnThemLich_Click(object sender, EventArgs e)
@@ -482,25 +492,28 @@ namespace QuanLyDangKy.Views
         // ==========================================
         private void KiemTraThongBaoGiaHan()
         {
-            if (PhienDangNhap.MaNguoiDungHienTai == -1) return;
+            // BỎ QUA nếu người dùng chọn Tắt Thông Báo (-1)
+            if (PhienDangNhap.SoNgayNhac < 0) return;
 
             try
             {
                 KetNoiDuLieu db = new KetNoiDuLieu();
                 using (MySqlConnection conn = new MySqlConnection(db.LayChuoiKetNoi()))
                 {
-                    // Quét các gói đang hoạt động và có ngày gia hạn chênh lệch từ 0 đến 3 ngày so với hôm nay
+                    // Dùng Parameter @songaynhac thay vì DATEDIFF <= 3 cố định
                     string query = @"SELECT TenDichVu, NgayGiaHan, GiaGoc, DonViTienTe 
-                                     FROM GoiDangKy 
+                                     FROM goidangky 
                                      WHERE MaNguoiDung = @uid 
                                      AND TrangThaiHoatDong = 1 
                                      AND DATEDIFF(NgayGiaHan, CURDATE()) >= 0 
-                                     AND DATEDIFF(NgayGiaHan, CURDATE()) <= 3
+                                     AND DATEDIFF(NgayGiaHan, CURDATE()) <= @songaynhac
                                      ORDER BY NgayGiaHan ASC";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@uid", PhienDangNhap.MaNguoiDungHienTai);
+                        cmd.Parameters.AddWithValue("@songaynhac", PhienDangNhap.SoNgayNhac); // <--- Lấy từ Cài đặt
+
                         conn.Open();
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -514,29 +527,25 @@ namespace QuanLyDangKy.Views
                                 decimal gia = reader.GetDecimal("GiaGoc");
                                 string tienTe = reader.GetString("DonViTienTe");
 
-                                // Tính chính xác số ngày còn lại
                                 int soNgayConLai = (int)(ngayGiaHan.Date - DateTime.Now.Date).TotalDays;
-
                                 string textNgay = soNgayConLai == 0 ? "⚠️ HÔM NAY" : $"Còn {soNgayConLai} ngày";
 
                                 danhSachThongBao.Add($"- {ten}: {gia:N0} {tienTe} ({textNgay})");
                                 soGoiSapHan++;
                             }
 
-                            // Nếu có gói sắp hết hạn, gom lại bật 1 thông báo duy nhất
                             if (soGoiSapHan > 0)
                             {
                                 string thongBao = $"Bạn có {soGoiSapHan} dịch vụ sắp đến hạn thanh toán:\n\n" +
                                                   string.Join("\n", danhSachThongBao) +
                                                   "\n\nHãy chuẩn bị sẵn tiền trong thẻ nhé!";
-
                                 MessageBox.Show(thongBao, "⏰ Nhắc nhở thanh toán", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
                         }
                     }
                 }
             }
-            catch { /* Lỗi ngầm (ví dụ mất mạng) thì bỏ qua, không làm phiền trải nghiệm mở app */ }
+            catch { }
         }
     }
 }

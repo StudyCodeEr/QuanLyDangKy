@@ -263,6 +263,13 @@
   <ItemGroup>
     <Compile Include="Data\KetNoiDuLieu.cs" />
     <Compile Include="Models\PhienDangNhap.cs" />
+    <Compile Include="Models\ThemeManager.cs" />
+    <Compile Include="Views\CaiDatForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CaiDatForm.Designer.cs">
+      <DependentUpon>CaiDatForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\ChiTietGoiForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -311,6 +318,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\CaiDatForm.resx">
+      <DependentUpon>CaiDatForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\ChiTietGoiForm.resx">
       <DependentUpon>ChiTietGoiForm.cs</DependentUpon>
     </EmbeddedResource>

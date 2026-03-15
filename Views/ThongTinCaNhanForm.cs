@@ -86,6 +86,7 @@ namespace QuanLyDangKy.Views
                 }
             }
             catch (Exception ex) { MessageBox.Show("Lỗi tải thông tin: " + ex.Message); }
+            ThemeManager.ApDungGiaoDien(this, PhienDangNhap.CheDoToi);
         }
 
         // Đọc ảnh an toàn và ÉP LUÔN THÀNH TRÒN 

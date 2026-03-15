@@ -14,7 +14,10 @@ namespace QuanLyDangKy.Views
             // Khởi động luôn hiện phần Đăng Nhập đè lên trên
             pnlDangNhap.BringToFront();
         }
-
+        private void DangNhapForm_Load(object sender, EventArgs e)
+        {
+            ThemeManager.ApDungGiaoDien(this, PhienDangNhap.CheDoToi);
+        }
         // --- HIỆU ỨNG CHUYỂN ĐỔI 2 PANEL ---
         private void lblChuyenDangKy_Click(object sender, EventArgs e)
         {
@@ -121,5 +124,7 @@ namespace QuanLyDangKy.Views
                 MessageBox.Show("Lỗi: " + ex.Message, "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        
     }
 }

@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.pnlDangNhap = new Guna.UI2.WinForms.Guna2Panel();
+            this.guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2ControlBox2 = new Guna.UI2.WinForms.Guna2ControlBox();
             this.btnDangNhap = new Guna.UI2.WinForms.Guna2Button();
             this.txtLogPass = new Guna.UI2.WinForms.Guna2TextBox();
@@ -38,6 +39,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lblChuyenDangKy = new System.Windows.Forms.Label();
             this.pnlDangKy = new Guna.UI2.WinForms.Guna2Panel();
+            this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2ControlBox1 = new Guna.UI2.WinForms.Guna2ControlBox();
             this.lblChuyenDangNhap = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -49,13 +51,11 @@
             this.txtRegUser = new Guna.UI2.WinForms.Guna2TextBox();
             this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
-            this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
-            this.guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2DragControl2 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
             this.pnlDangNhap.SuspendLayout();
+            this.guna2Panel2.SuspendLayout();
             this.pnlDangKy.SuspendLayout();
             this.guna2Panel1.SuspendLayout();
-            this.guna2Panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlDangNhap
@@ -73,6 +73,15 @@
             this.pnlDangNhap.Name = "pnlDangNhap";
             this.pnlDangNhap.Size = new System.Drawing.Size(400, 500);
             this.pnlDangNhap.TabIndex = 0;
+            // 
+            // guna2Panel2
+            // 
+            this.guna2Panel2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.guna2Panel2.Controls.Add(this.guna2ControlBox2);
+            this.guna2Panel2.Location = new System.Drawing.Point(0, 0);
+            this.guna2Panel2.Name = "guna2Panel2";
+            this.guna2Panel2.Size = new System.Drawing.Size(400, 32);
+            this.guna2Panel2.TabIndex = 36;
             // 
             // guna2ControlBox2
             // 
@@ -207,6 +216,15 @@
             this.pnlDangKy.Name = "pnlDangKy";
             this.pnlDangKy.Size = new System.Drawing.Size(400, 500);
             this.pnlDangKy.TabIndex = 12;
+            // 
+            // guna2Panel1
+            // 
+            this.guna2Panel1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.guna2Panel1.Controls.Add(this.guna2ControlBox1);
+            this.guna2Panel1.Location = new System.Drawing.Point(0, 0);
+            this.guna2Panel1.Name = "guna2Panel1";
+            this.guna2Panel1.Size = new System.Drawing.Size(400, 32);
+            this.guna2Panel1.TabIndex = 35;
             // 
             // guna2ControlBox1
             // 
@@ -366,24 +384,6 @@
             this.guna2DragControl1.TargetControl = this.guna2Panel1;
             this.guna2DragControl1.UseTransparentDrag = true;
             // 
-            // guna2Panel1
-            // 
-            this.guna2Panel1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.guna2Panel1.Controls.Add(this.guna2ControlBox1);
-            this.guna2Panel1.Location = new System.Drawing.Point(0, 0);
-            this.guna2Panel1.Name = "guna2Panel1";
-            this.guna2Panel1.Size = new System.Drawing.Size(400, 32);
-            this.guna2Panel1.TabIndex = 35;
-            // 
-            // guna2Panel2
-            // 
-            this.guna2Panel2.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.guna2Panel2.Controls.Add(this.guna2ControlBox2);
-            this.guna2Panel2.Location = new System.Drawing.Point(0, 0);
-            this.guna2Panel2.Name = "guna2Panel2";
-            this.guna2Panel2.Size = new System.Drawing.Size(400, 32);
-            this.guna2Panel2.TabIndex = 36;
-            // 
             // guna2DragControl2
             // 
             this.guna2DragControl2.DockIndicatorTransparencyValue = 0.6D;
@@ -403,12 +403,13 @@
             this.Name = "DangNhapForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Đăng nhập/Đăng kí";
+            this.Load += new System.EventHandler(this.DangNhapForm_Load);
             this.pnlDangNhap.ResumeLayout(false);
             this.pnlDangNhap.PerformLayout();
+            this.guna2Panel2.ResumeLayout(false);
             this.pnlDangKy.ResumeLayout(false);
             this.pnlDangKy.PerformLayout();
             this.guna2Panel1.ResumeLayout(false);
-            this.guna2Panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

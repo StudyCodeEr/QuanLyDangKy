@@ -31,6 +31,7 @@ namespace QuanLyDangKy.Views
         {
             TaiDanhSachMau();
             HieuUngChonMau(btnMau1); // Mặc định tô viền cho nút màu đầu tiên
+            ThemeManager.ApDungGiaoDien(this, PhienDangNhap.CheDoToi);
         }
 
         // ===============================================
